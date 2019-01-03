@@ -1,0 +1,16 @@
+#+TITLE: Emacs Configuration
+#+AUTHOR: Yauhen Artsiukhou
+
+My configuration highly based on wonderful configuration:
+
+- ~Steve~ - https://github.com/purcell/emacs.d
+
+I like to get new things as soons as possible, so don't hisitate to use latest versions.
+
+Requirements:
+
+- ~Debian GNU/Linux Testing~
+- ~emacs-snapshot~ (currently >= 27.0)
+
+
+*WORK IS IN PROGRESS NOW*
