@@ -1,0 +1,25 @@
+# Emacs Desktop
+/.emacs.desktop
+/.emacs.desktop.lock
+/auto-save-list
+/custom.el
+*~
+\#*
+
+# Installed Packages
+/elpa
+/elpa-*
+
+# Multi Cursors
+/.mc-lists.el
+
+# Tramp files
+/tramp
+
+/history
+/.smex-items
+/eshell
+/recentf
+/projectile-bookmarks.eld
+/anaconda-mode/
+/magithub
