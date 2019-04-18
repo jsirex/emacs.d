@@ -310,7 +310,7 @@ My previous emacs configuration was based on wonderful ~Steves~' configuration:
      (setq-default
       require-final-newline t
       whitespace-action '(auto-cleanup warn-read-only)
-      whitespace-style '(face empty trailing space-after-tab space-before-tab))
+      whitespace-style '(face trailing space-after-tab space-before-tab))
 
      (global-whitespace-mode)
    #+END_SRC
@@ -480,7 +480,8 @@ My previous emacs configuration was based on wonderful ~Steves~' configuration:
    #+BEGIN_SRC emacs-lisp
      (use-package avy-zap
        :bind (("M-z" . avy-zap-up-to-char-dwim)
-          ("M-Z" . avy-zap-up-to-char-dwim)))
+              ("M-Z" . avy-zap-up-to-char-dwim))
+       :config (setq avy-zap-forward-only t))
    #+END_SRC
 
 ** Electric Pair
@@ -998,7 +999,7 @@ My previous emacs configuration was based on wonderful ~Steves~' configuration:
          treemacs-file-event-delay           5000
          treemacs-file-follow-delay          0.2
          treemacs-follow-after-init          t
-         treemacs-follow-recenter-distance   0.1
+         treemacs-recenter-distance          0.1
          treemacs-git-command-pipe           ""
          treemacs-goto-tag-strategy          'refetch-index
          treemacs-indentation                2
@@ -1058,6 +1059,11 @@ My previous emacs configuration was based on wonderful ~Steves~' configuration:
         'executable-make-buffer-file-executable-if-script-p)
    #+END_SRC
 
+   TODO:
+   1. Fixme: Ident shell script inserts tabs
+   2. Do indent and complete at point instead of complete
+
+
 ** CSV
 
    #+BEGIN_SRC emacs-lisp
@@ -1093,11 +1099,10 @@ My previous emacs configuration was based on wonderful ~Steves~' configuration:
    #+END_SRC
 ** Rust
 
+   Fixme: rust mode doesn't start
    #+BEGIN_SRC emacs-lisp
      (use-package rust-mode
-       :commands rust-mode)
-
-
+       :mode "\\.rs\\'")
 
      (use-package racer :defer t)
      (use-package flymake-rust :defer t)
@@ -1184,8 +1189,13 @@ My previous emacs configuration was based on wonderful ~Steves~' configuration:
 
    Editing ~Dockerfile~ and ~docker-compose.yml~:
    #+BEGIN_SRC emacs-lisp
-     (use-package dockerfile-mode)
-     (use-package docker-compose-mode)
+     (use-package dockerfile-mode
+       :commands (docker-mode)
+       :mode "\\Dockerfile\\'")
+
+     (use-package docker-compose-mode
+       :commands (docker-compose-mode)
+       :mode "\\docker-compose.yml")
    #+END_SRC
 
 ** Ansible

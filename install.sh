@@ -45,7 +45,7 @@ install_emacs_snapshot() {
 install_fira_code_font() {
     local font_package="fonts-firacode"
     local font_source="$(realpath $EMACS_DIR/fonts/firacode/FiraCode-Regular-Symbol.otf)"
-    local font_local="$(realpath ~/.local/share/fonts/FiraCode-Regular-Symbol.otf)"
+    local font_local="$(realpath ~/.local)/share/fonts/FiraCode-Regular-Symbol.otf"
 
     ensure_system_package $font_package
 
