@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 SUDO=${SUDO:-sudo}
 EMACS_DIR=$(cd $(dirname $0); pwd)
@@ -12,14 +12,14 @@ add_emacs_snapshot_repo() {
     local emacs_list="/etc/apt/sources.list.d/emacs-snapshot.list"
 
     if [ -f $emacs_list ]; then
-	echo "Emacs repository has been already added."
+        echo "Emacs repository has been already added."
     else
-	echo "Adding emacs snapshot repo: $emacs_list ..."
-	cat << EOF | $SUDO tee $emacs_list > /dev/null
+        echo "Adding emacs snapshot repo: $emacs_list ..."
+        cat << EOF | $SUDO tee $emacs_list > /dev/null
 deb     [arch=amd64] http://emacs.secretsauce.net unstable main
 deb-src [arch=amd64] http://emacs.secretsauce.net unstable main
 EOF
-	$SUDO apt-get update
+        $SUDO apt-get update
     fi
 }
 
@@ -31,10 +31,10 @@ ensure_system_package() {
     local package=$1
 
     if package_installed $package; then
-	echo "Package $package has been already installed."
+        echo "Package $package has been already installed."
     else
-	echo "Installing package $package ..."
-	$SUDO apt-get -q -y install $package
+        echo "Installing package $package ..."
+        $SUDO apt-get -q -y install $package
     fi
 }
 
@@ -50,10 +50,11 @@ install_fira_code_font() {
     ensure_system_package $font_package
 
     if [ -f $font_local ]; then
-	echo "Patched font 'Fira Code Regular Symbol' has been already installed."
+        echo "Patched font 'Fira Code Regular Symbol' has been already installed."
     else
-	echo "Copying locally patched 'Fira Code Regular Symbol' to $font_local"
-	cp $font_source $font_local
+        echo "Copying locally patched 'Fira Code Regular Symbol' to $font_local"
+        mkdir -p "$(dirname "$font_local")"
+        cp $font_source $font_local
     fi
 }
 
