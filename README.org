@@ -858,7 +858,7 @@ My previous emacs configuration was based on wonderful ~Steves~' configuration:
 
   In recent emacs version ~flymake~ has been refactored and is worth to be considered.
 
-  #+BEGIN_SRC emacs-lisp
+  #+BEGIN_SRC emacs-lisp :tangle no
     (add-hook 'prog-mode-hook 'flymake-mode-on)
   #+END_SRC
 
@@ -868,6 +868,7 @@ My previous emacs configuration was based on wonderful ~Steves~' configuration:
 
    #+BEGIN_SRC emacs-lisp
      (use-package flymake-diagnostic-at-point
+       :disabled
        :after flymake
        :hook (flymake-mode . flymake-diagnostic-at-point-mode))
    #+END_SRC
