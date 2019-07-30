@@ -851,6 +851,13 @@ My previous emacs configuration was based on wonderful ~Steves~' configuration:
 
      (use-package diredfl
        :hook (dired-mode . diredfl-mode))
+
+     (use-package dired-subtree
+       :after dired
+       :bind (:map dired-mode-map
+                   ("<tab>" . dired-subtree-toggle)
+                   ("i" . dired-subtree-insert)
+                   (";" . dired-subtree-remove)))
    #+END_SRC
 
 * Fly Make
