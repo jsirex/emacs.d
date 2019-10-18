@@ -1163,6 +1163,14 @@ My previous emacs configuration was based on wonderful ~Steves~' configuration:
        (setq markdown-command "multimarkdown"))
    #+END_SRC
 
+** Apache
+
+   Add apache mode
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package apache-mode)
+   #+END_SRC
+
 * Configuration Management and DevOps
 ** SystemD
 
@@ -1210,9 +1218,12 @@ My previous emacs configuration was based on wonderful ~Steves~' configuration:
 
    #+BEGIN_SRC emacs-lisp
      (use-package ansible)
+
+     (use-package ansible-doc)
+     (use-package ansible-vault)
    #+END_SRC
 
-   Company backedn for ansible:
+   Company backend for ansible:
    #+BEGIN_SRC emacs-lisp
      (use-package company-ansible)
    #+END_SRC
