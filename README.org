@@ -539,14 +539,15 @@ My previous emacs configuration was based on wonderful ~Steves~' configuration:
        :init
        (setq mc/list-file (expand-file-name ".cache/mc-lists.el" user-emacs-directory))
        :bind (("C-<" . mc/mark-previous-like-this)
-          ("C->" . mc/mark-next-like-this)
-          ("C-c m m" . mc/mark-all-dwim)
-          ("C-c m s" . mc/skip-to-next-like-this)))
+              ("C->" . mc/mark-next-like-this)
+              ("C-c m m" . mc/mark-all-dwim)
+              ("C-c m s" . mc/skip-to-next-like-this)
+              ("C-c C-'" . mc-hide-unmatched-lines-mode)))
 
      (use-package phi-search
        :bind (:map mc/keymap
-		   ("C-s" . phi-search)
-		   ("C-r" . phi-search-backward)))
+                   ("C-s" . phi-search)
+                   ("C-r" . phi-search-backward)))
 
      ;; Mark cursors almost like avy
      (use-package ace-mc
