@@ -1172,6 +1172,14 @@ My previous emacs configuration was based on wonderful ~Steves~' configuration:
      (use-package apache-mode)
    #+END_SRC
 
+** Nginx
+
+   Add nginx mode
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package nginx-mode :defer t)
+   #+END_SRC
+
 * Configuration Management and DevOps
 ** SystemD
 
