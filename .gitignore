@@ -1,19 +1,30 @@
-# Automatically Generated File:
-README.el
-README.shell-script
-README.html
-
 # Installed Packages
 /elpa
-/elpa-*
+/quelpa
 
+# Emacs cache
 .cache/
 
-# https://github.com/sigma/pcache/issues/6
-var/pcache/
+# Customization
+/custom.el
 
 # Compiled files
 *.elc
 
 *~
 \#*
+
+.emacs.desktop
+.emacs.desktop.lock
+package-quickstart.el
+
+.last-package-update-day
+history
+places
+projectile-bookmarks.eld
+recentf
+smex-items
+transient/
+
+/.mc-lists.el
+/tramp

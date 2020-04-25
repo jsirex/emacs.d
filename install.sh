@@ -2,6 +2,7 @@
 
 SUDO=${SUDO:-sudo}
 EMACS_DIR=$(cd $(dirname $0); pwd)
+EMACS_CACHE_DIR="$EMACS_DIR/.cache"
 
 if [ "$(whoami)" == "root" ]; then
     SUDO=""
@@ -38,42 +39,29 @@ ensure_system_package() {
     fi
 }
 
-install_emacs_snapshot() {
-    ensure_system_package "emacs-snapshot"
-}
+install_fira_code_nerd_font() {
+    local fira_code_nerd_version="v2.1.0"
+    local fira_code_nerd_source="https://github.com/ryanoasis/nerd-fonts/releases/download/${fira_code_nerd_version}/FiraCode.zip"
+    local fira_code_nerd_filename="$EMACS_CACHE_DIR/FiraCode-${fira_code_nerd_version}.zip"
+    local local_fonts_dir=~/.local/share/fonts/
 
-install_fira_code_font() {
-    local font_package="fonts-firacode"
-    local font_source="$(realpath $EMACS_DIR/fonts/firacode/FiraCode-Regular-Symbol.otf)"
-    local font_local="$(realpath ~/.local)/share/fonts/FiraCode-Regular-Symbol.otf"
-
-    ensure_system_package $font_package
-
-    if [ -f $font_local ]; then
-        echo "Patched font 'Fira Code Regular Symbol' has been already installed."
+    if [[ -f "$fira_code_nerd_filename" ]]; then
+        echo "Using cached font archive: $fira_code_nerd_filename"
     else
-        echo "Copying locally patched 'Fira Code Regular Symbol' to $font_local"
-        mkdir -p "$(dirname "$font_local")"
-        cp $font_source $font_local
+        wget -c "$fira_code_nerd_source" -O "$fira_code_nerd_filename"
     fi
+
+    unzip -o -u -d "$local_fonts_dir" "$fira_code_nerd_filename"
+    fc-cache "$local_fonts_dir"
 }
 
-install_editorconfig() {
-    ensure_system_package "editorconfig"
-}
+mkdir -p "$EMACS_CACHE_DIR"
 
-install_shellcheck() {
-    ensure_system_package "shellcheck"
-}
-
-install_multimarkdown() {
-    echo "multimarkdown provided by libtext-markup-perl package"
-    ensure_system_package "libtext-markup-perl"
-}
+# Install Fira Code Nerd Font
+install_fira_code_nerd_font
 
 add_emacs_snapshot_repo
-install_emacs_snapshot
-install_fira_code_font
-install_editorconfig
-install_shellcheck
-install_multimarkdown
+
+ensure_system_package "emacs-snapshot"
+ensure_system_package "editorconfig"
+ensure_system_package "shellcheck"
