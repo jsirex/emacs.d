@@ -10,7 +10,7 @@ This is my emacs configuration: https://github.com/jsirex/emacs.d
   I like to getting new things as soon as possible, so don't hesitate to use latest versions:
 
   - ~Debian GNU/Linux Testing~
-  - ~emacs-snapshot~ (/currently >= 28.0/)
+  - ~emacs from source~ (/currently >= 29.0/)
 
   There are lots of stuff required to emacs function properly: compilers, tools, cli, fonts, etc...
 
@@ -44,21 +44,6 @@ This is my emacs configuration: https://github.com/jsirex/emacs.d
 
   That's it!
 
-* Forking | Using | Contributing
-
-  I didn't think too much about customization for now, not sure it is necessary.
-  I hope ~git~ is enough for straight fork:
-
-  1. Fork this repo on github
-  2. Clone it to your home
-  3. Customize configuration - it is strongly recommended to use one commit per logical change
-  4. Add this repo as ~upstream~ repository
-  5. Pull changes periodically
-  6. If you want to share your fix or improvement
-     1. Start new branch at ~upstream/master~
-     2. Make changes or cherry-pick commits
-     3. Create pull request
-
 * Configuration principles
 
   I think that maintain an universal emacs configuration which works brilliant both on Linux, Mac and Windows is too hard.
@@ -78,3 +63,27 @@ This is my emacs configuration: https://github.com/jsirex/emacs.d
   But if you want modify emacs itself (this file) new changes will take effect after compilation.
   So it is better idea to clean compiled files with ~make clean~, work under emacs configuration.
   When ready - do a final compile: ~make~.
+
+
+* TODO
+
+1. DBUS
+2. URL
+3. TREE Sitter
+4. Native Compilation
+
+* Forking | Using | Contributing
+
+  I didn't think too much about customization for now, not sure it is necessary.
+  I hope ~git~ is enough for straight fork:
+
+  1. Fork this repo on github
+  2. Clone it to your home
+  3. Customize configuration - it is strongly recommended to use one commit per logical change
+  4. Add this repo as ~upstream~ repository
+  5. Pull changes periodically
+  6. If you want to share your fix or improvement
+     1. Start new branch at ~upstream/master~
+     2. Make changes or cherry-pick commits
+     3. Create pull request
+

@@ -20,643 +20,428 @@
 
 ;;; Commentary:
 
-;; Emacs Initialization
+;; I know about use-package but I prefer to control stuff by myself
+;; Also it helps me a bit better understand emacs
 
 ;;; Code:
+(require 'package)
 
 (eval-and-compile
-  (setq user-full-name "Yauhen Artsiukhou"
-        user-mail-address "jsirex@gmail.com"
+  ;; like add-to-list it is quite improper to setq a custom variable
+  ;; setters must be used for custom variables, but nobody cares
+  (cl-pushnew '("stable" . "https://stable.melpa.org/packages/") package-archives :test #'equal)
+  (cl-pushnew '("melpa"  . "https://melpa.org/packages/")        package-archives :test #'equal)
 
-        custom-file "/dev/null")
+  (setopt package-native-compile t
+	  package-quickstart t
+	  package-archive-priorities '(("gnu"    . 90)
+				       ("nongnu" . 80)
+				       ("stable" . 70)
+				       ("melpa"  . 0 )))
 
-  ;; Prefer UTF-8
-  (set-language-environment "UTF-8"))
+  ;; TODO: Add the following packages to list
+  ;; ?? corfu-prescient
+  ;; ace-mc based on ace-jump-mode, but avy seems better...
+  ;; auth-source-kwallet
+  ;; enh-ruby-mode -
+  ;; flymake-clippy maybe, requires extra steps
+  ;; format-all - looks good for formatting everything on save
+  ;; mc-extras - maybe
+  ;; prescient - better sorting?
+  ;; python-mode / anaconda-mode? - vs ts?
+  ;; ?? enh-ruby-mode
+  ;; consult-eglot-embark
+  ;; gptel
+  ;; maybe avy-embark-collect
+  ;; phi-search learn about +mc
+  (setopt package-selected-packages
+          '(
+            ag
+            ansible
+            ansible-doc
+            ansible-vault
+            audacious
+            avy
+            avy-zap
+            cape
+            cargo-transient
+            color-theme-sanityinc-tomorrow
+            consult
+            consult-ag
+            consult-eglot
+            consult-project-extra
+            corfu
+            csv-mode
+            diff-hl
+            difftastic
+            diminish
+            diredfl
+            docker-compose-mode
+            dockerfile-mode
+            editorconfig
+            embark
+            embark-consult
+            expand-region
+            fira-code-mode
+            flymake-ruby
+            flymake-shellcheck
+            flymake-yamllint
+            forge
+            geiser
+            geiser-guile
+            gerrit
+            git-modes
+            git-timemachine
+            gitlab-ci-mode
+            guix
+            magit
+            magit-todos
+            marginalia
+            markdown-mode
+            mmm-mode
+            move-dup
+            multiple-cursors
+            nerd-icons
+            nerd-icons-completion
+            nerd-icons-corfu
+            nerd-icons-dired
+            nginx-mode
+            orderless
+            page-break-lines
+            rainbow-delimiters
+            rust-mode
+            symbol-overlay
+            systemd
+            vertico
+            wgrep
+            wgrep-ag
+            which-key
+            yaml-mode
+            yard-mode
+            yasnippet
+            yasnippet-capf
+            yasnippet-snippets
+            zoom
+            ))
 
-
+  (package-initialize :noactivate)
 
-;;; Initialize package and use-package
-
-(eval-and-compile
-  (require 'package)
-
-  ;; Merges all autoload into single package-quickstart.el
-  (setq package-quickstart t)
-
-  ;; Load package and use-package
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-  (add-to-list 'package-archives '("org"   . "https://orgmode.org/elpa/") t)
-  (add-to-list 'package-archives '("gnu"   . "https://elpa.gnu.org/packages/") t)
-
-  (setq package-archive-priorities
-        '(("melpa" .  3)
-          ("org" . 2)
-          ("gnu" . 1)))
-
-  (package-initialize)
-
-  (unless (package-installed-p 'use-package)
+  (when (seq-remove #'package-installed-p package-selected-packages)
     (package-refresh-contents)
-    (package-install 'use-package))
+    (package-install-selected-packages :noconfirm))
 
-  (require 'use-package)
-
-  (setq use-package-always-ensure t
-        use-package-always-defer t))
+  (package-activate-all))
 
 
 
-;;; C-Source Emacs
 
-(setq-default indent-tabs-mode nil
-              inhibit-compacting-font-caches t
-              scroll-conservatively 101
-              sentence-end-double-space nil
-              tab-width 4)
+
+;; (pack-install 'foo)
+;; (weal 'foo (code))
+
+;; (u-p 'foo :config (code))
+
+;; Customize each package only after it has been loaded
+;; weal pkg1 -> code
+;; concerns: big after-load-alist of code. However long lists are ok (for example package-archive-contents)
+
+;; explicit call for some packages with (require pk1)
+;; no concerns
+
+;; Global Keymaps
+;; bind every key
+;; if bind to unknown function - then it hasn't loaded and hasn't autoloaded. so bug
+
+
+;; Another strategy
+;; require all / how?
+;; plain big setopt
+;; plain big remap
+;; plain big keymap
+;; plain call to functions
+
+;; idea: (eval-when-compile install-all-pkgs-here). no code on run
+
+
+;; no compile, use package:
+;; require package
+;; tune package opts
+;; require use-package
+;; tune use-package opts
+
+;; use-package emacs embedded into emacs settings
+;; use-package built-in-pkg :demand t
+;; use-package statements with init/config/binds, etc..
+
+
+;; core defined variables
+(setopt auto-save-list-file-name nil
+	history-length 500
+	indent-tabs-mode nil
+	inhibit-compacting-font-caches t
+	inhibit-startup-message t
+	initial-scratch-message (concat ";; Happy hacking, " user-login-name " - Emacs ♥ you!\n")
+	process-adaptive-read-buffering nil
+	read-process-output-max (* 1 1024 1024)
+	scroll-conservatively 101
+	sentence-end-double-space nil
+	tab-always-indent 'complete
+	tab-width 4
+	use-short-answers t)
+
+
+(with-eval-after-load 'dired
+  (setopt dired-dwim-target t))
+
+(when (require 'custom)
+  (setopt custom-file (locate-user-emacs-file "ignored-custom.el")))
+
+(when (require 'project)
+  ())
+
+(when (require 'wdired)
+  (setopt wdired-allow-to-change-permissions t))
+
+(when (require 'hippie-exp)
+  (keymap-global-set "M-/" #'hippie-expand))
+
+(when (require 'files)
+  (setopt auto-save-default nil)
+  (setopt auto-save-list-file-prefix nil)
+  (setopt require-final-newline t))
+
+
+;; Demand installed packages
+
+(when (require 'color-theme-sanityinc-tomorrow)
+  (load-theme 'sanityinc-tomorrow-eighties t))
+
+(require 'vertico)
+(setopt vertico-mode t)
+(setopt vertico-count 20)
+
+(require 'vertico-quick)
+(keymap-set vertico-map "M-q" #'vertico-quick-exit)
+
+(when (require 'marginalia)
+  (setopt marginalia-mode t))
+
+(require 'corfu)
+(progn
+  (setopt global-corfu-mode t)
+  (setopt corfu-count 20)
+  (setopt corfu-max-width 200)
+  (setopt corfu-min-width 50)
+  (setopt corfu-preselect 'prompt))
+
+(when (require 'corfu-popupinfo)
+  (setopt corfu-popupinfo-mode t)
+  (setopt corfu-popupinfo-delay '(0.5 . 0.1)))
+
+(when (require 'corfu-quick)
+  (keymap-set corfu-map "M-q" #'corfu-quick-complete))
+
+
+;; Defer section
+(with-eval-after-load 'eglot
+  (setopt eglot-autoshutdown t))
+
+;; set theme erlier
+(with-eval-after-load 'magit
+  (transient-append-suffix 'magit-push "-n"
+    '("-gm" "GitLab Create Merge Request" "--push-option=merge_request.create")))
+
+
+;; completion
+;; (setopt completion-cycle-threshold 5)
+(setopt completion-styles '(basic partial-completion orderless))
+;; TODO: completion-overrides by type
+
+;; cycling? probably
+;; (keymap-set vertico-map "TAB" #'minibuffer-complete)
+;; avy style to select candidate
+
 
 
 
-;;; Built-in packages
-
-(use-package autorevert :ensure nil :demand t
-  :config
-  (global-auto-revert-mode 1))
-
-(use-package compile :ensure nil :demand t
-  :config
-  (setq compilation-ask-about-save nil
-        compilation-scroll-output 'first-error))
-
-(use-package custom :ensure nil :demand t
-  :config
-  (setq custom-safe-themes t))
-
-(use-package delsel :ensure nil :demand t
-  :config
-  (delete-selection-mode t))
-
-(use-package desktop :ensure nil :demand t
-  :config
-  (setq desktop-auto-save-timeout 600)
-
-  (desktop-save-mode 1))
-
-(use-package dired :ensure nil :demand t
-  :config
-  (setq dired-recursive-deletes 'always
-        dired-recursive-copies 'always
-        dired-dwim-target t
-        dired-auto-revert-buffer t))
-
-(use-package electric :ensure nil
-  :hook (prog-mode . electric-pair-mode))
-
-(use-package files :ensure nil :demand t
-  :config
-  (setq-default auto-save-default nil
-                auto-save-list-file-prefix nil
-                auto-save-list-file-name nil
-                create-lockfiles nil
-                make-backup-file nil
-                require-final-newline t))
-
-(use-package hippie-exp :ensure nil :demand t
-  :bind ("M-/"  . hippie-expand)
-  :config
-  (setq hippie-expand-try-functions-list '(try-complete-file-name-partially
-                                           try-complete-file-name
-                                           try-expand-dabbrev
-                                           try-expand-dabbrev-all-buffers
-                                           try-expand-dabbrev-from-kill)))
-
-(use-package hl-line :ensure nil :demand t
-  :hook ((prog-mode text-mode) . hl-line-mode))
-
-(use-package ibuffer :ensure nil :demand t
-  :bind ("C-x C-b" . ibuffer))
-
-(use-package novice :ensure nil :demand t
-  :config
-  (setq disabled-command-function nil))
-
-(use-package paren :ensure nil :demand t
-  :config
-  (show-paren-mode 1))
-
-(use-package recentf :ensure nil :demand t
-  :config
-  (setq recentf-exclude '("/tmp/" "/ssh:")
-        recentf-max-saved-items 50))
-
-(use-package savehist :ensure nil :demand t
-  :config
-  (setq history-length 1000
-        savehist-additional-variables '(kill-ring search-ring regexp-search-ring)
-        savehist-autosave-interval nil ; save on kill only
-        savehist-save-minibuffer-history t)
-
-  (savehist-mode 1))
-
-(use-package saveplace :ensure nil :demand t
-  :config
-  (save-place-mode 1))
-
-(use-package simple :ensure nil :demand t
-  :config
-  (line-number-mode 1)
-  (column-number-mode 1))
-
-(use-package so-long :ensure nil :demand t
-  :config
-  (global-so-long-mode 1))
-
-(use-package startup :ensure nil :demand t :no-require t
-  :config
-  (setq initial-scratch-message (concat ";; Happy hacking, " user-login-name " - Emacs ♥ you!\n")
-        inhibit-startup-message t))
-
-(use-package subword :ensure nil :demand t :diminish
-  :hook (prog-mode . subword-mode))
-
-(use-package uniquify :ensure nil :demand t
-  :config
-  (setq uniquify-buffer-name-style 'reverse
-        uniquify-separator " • "
-        uniquify-after-kill-buffer-p t
-        uniquify-ignore-buffers-re "^\\*"))
-
-(use-package wdired :ensure nil :demand t
-  :config
-  (setq wdired-allow-to-change-permissions t))
-
-(use-package whitespace :ensure nil :demand t
-  :config
-  (setq-default whitespace-action '(auto-cleanup warn-read-only)
-                whitespace-style '(face trailing space-after-tab space-before-tab))
-
-  (global-whitespace-mode 1))
-
-(use-package windmove :ensure nil :demand t
-  :bind (("C-S-<left>" . windmove-swap-states-left)
-         ("C-S-<right>" . windmove-swap-states-right)
-         ("C-S-<up>" . windmove-swap-states-up)
-         ("C-S-<down>" . windmove-swap-states-down))
-  :config
-  (windmove-default-keybindings 'control))
-
-(use-package window :ensure nil :demand t
-  :config
-  (setq split-height-threshold 100
-        split-width-threshold 200))
-
-(use-package winner :ensure nil :demand t
-  :config
-  (winner-mode 1))
+;; (require 'dired)
+;; (require 'multiple-cursors)
+;; (require 'projectile)
 
 
 
-;;; Packages
-
-(use-package all-the-icons)
-(use-package all-the-icons-dired :diminish
-  :hook (dired-mode . all-the-icons-dired-mode))
-
-(use-package diminish :demand t)
-(use-package bind-key :demand t)
-
-(use-package company :demand t :diminish
-  :bind (:map company-active-map
-              ("C-n" . company-select-next)
-              ("C-p" . company-select-previous))
-  :config
-  (setq-default company-dabbrev-ignore-case nil
-                company-dabbrev-other-buffers t
-                company-tooltip-align-annotations t
-                company-idle-delay 0
-                company-echo-delay 0
-                company-minimum-prefix-length 3
-                company-tooltip-limit 20)
-  (global-company-mode 1))
-
-(use-package gitconfig-mode)
-(use-package gitignore-mode)
-(use-package gitattributes-mode)
-
-(use-package git-timemachine)
-
-;; gited - dired git?
-
-(use-package gitlab-ci-mode)
-(use-package gitlab-ci-mode-flycheck)
-
-
-(use-package unkillable-scratch :demand t
-  :config
-  (unkillable-scratch 1))
-
-;; Consider https://editorconfig.org/.
-(use-package editorconfig :demand t :diminish
-  :config
-  (editorconfig-mode 1))
-
-;;   ;; Move cursor through CamelCase, snake_case through the each word.
-
-(setq tab-always-indent 'complete)
-(add-to-list 'completion-styles 'initials t)
-
-
-;; ;;; Automatically adjust windows sizes. This makes emacs to behave like a tiling manager
-
-(use-package zoom :demand t :diminish
-  :config
-  (setq zoom-size '(0.618 . 0.618)
-        zoom-ignored-major-modes '(dired-mode)) ;; golden ratio
-
-  (zoom-mode 1))
-
-
-;;
-
-;; ;;; Themes
-
-(use-package color-theme-sanityinc-tomorrow :demand t
-  :config
-
-  (load-theme 'sanityinc-tomorrow-eighties))
-
-
-(use-package undo-tree :demand t
-  :diminish undo-tree-mode
-  :config
-  (setq undo-tree-visualizer-diff t
-        undo-tree-visualizer-timestamps t
-        undo-tree-visualizer-relative-timestamps t)
-  (global-undo-tree-mode 1))
-
-;; ;;; Display ligatures for fira code font
-
-(use-package fira-code-mode :diminish
-  :hook prog-mode) ;; Enables fira-code-mode automatically for programming major modes
-
-(use-package rainbow-delimiters
-  :hook ((prog-mode) . rainbow-delimiters-mode))
-
-
-;; ;;; Zap up to char: delete from current up to char
-
-(use-package avy-zap
-  :bind (("M-z" . avy-zap-up-to-char-dwim)
-         ("M-Z" . avy-zap-up-to-char-dwim))
-
-  :config
-  (setq avy-zap-forward-only t))
-
-
-
-
-
-;; ;;; This expands region: press ~C-=~ and then ~=~ to expand, ~-~ to collapse and ~0~ to reset.
-
-(use-package expand-region
-  :bind ("C-=" . er/expand-region))
-
-
-(use-package multiple-cursors
-  :bind (("C-<" . mc/mark-previous-like-this)
-         ("C->" . mc/mark-next-like-this)
-         ("C-c m m" . mc/mark-all-dwim)
-         ("C-c m s" . mc/skip-to-next-like-this)
-         ("C-c C-'" . mc-hide-unmatched-lines-mode)))
-
-(use-package phi-search
-  :bind (:map mc/keymap
-              ("C-s" . phi-search)
-              ("C-r" . phi-search-backward)))
-
-;; ;; Mark cursors almost like avy
-;; (use-package ace-mc
-;;   :requires ace-jump-mode
-
-;;   :bind (("C-)" . ace-mc-add-multiple-cursors)))
-
-(use-package symbol-overlay :diminish
-  :bind (:map symbol-overlay-mode-map
-              ("M-i" . symbol-overlay-put)
-              ("M-n" . symbol-overlay-jump-next)
-              ("M-p" . symbol-overlay-jump-prev))
-
-  :hook ((prog-mode html-mode yaml-mode conf-mode) . symbol-overlay-mode))
-
-
-
-;; ;;; Writable grep buffer
-
-(use-package wgrep :demand t
-  :config
-  (setq wgrep-auto-save-buffer t))
-
-(use-package wgrep-ag :demand t)
-
-
-;; ;;; Switch between windows using uniq key with ~C-x o <key>~
-
-(use-package switch-window
-  :bind (("C-x o" . switch-window)
-         ("C-x 1" . switch-window-then-maximize)
-         ("C-x 2" . switch-window-then-split-below)
-         ("C-x 3" . switch-window-then-split-right)
-         ("C-x 0" . switch-window-then-delete)
-         ("C-x 4 d" . switch-window-then-dired))
-
-  :config
-  (setq switch-window-shortcut-style 'qwerty))
-
-;; ;;; Avy helps quickly navigate you through the buffers
-
-(use-package avy
-  :bind (("C-;" . avy-goto-char-timer)
-         ("C-'" . avy-goto-line))
-  :config
-  (setq avy-timeout-seconds 0.3))
-
-
-;; (use-package enh-ruby-mode
-;;   :hook ruby-mode
-;;   :mode (("Gemfile\\'" . ruby-mode)
-;;          ("Thorfile\\'" . ruby-mode)
-;;          ("Guardfile\\'" . ruby-mode)
-;;          ("Rakefile\\'" . ruby-mode)
-;;          ("\\.rake\\'" . ruby-mode)
-;;          ("\\.ru\\'" . ruby-mode)
-;;          ("\\.gemspec\\'" . ruby-mode)
-;;          ("\\.builder\\'" . ruby-mode)
-;;          ("\\.god\\'" . ruby-mode)))
-
-(use-package rspec-mode)
-(use-package robe
-  :config
-  (push 'company-robe company-backends))
-(use-package yari
-  :config
-  (defalias 'ri 'yari))
-(use-package bundler)
-(use-package yard-mode)
-(use-package rvm)
-
-(use-package go-mode)
-(use-package go-guru)
-(use-package company-go)
-(use-package golint)
-
-(use-package terraform-mode
-  :hook (terraform-mode . terraform-format-on-save-mode))
-
-(use-package company-terraform
-  :hook (terraform-mode . company-terraform-init))
-
-(use-package diff-hl
-  :hook ((prog-mode org-mode) . diff-hl-mode))
-
-(use-package diff-hl-dired :disabled t
-  :ensure diff-hl
-  :hook (dired-mode . diff-hl-dired-mode))
-
-
-(use-package diredfl
-  :hook (dired-mode . diredfl-mode))
-
-(use-package dired-subtree
-  :after dired
-  :bind (:map dired-mode-map
-              ("<tab>" . dired-subtree-toggle)
-              ("i" . dired-subtree-insert)
-              (";" . dired-subtree-remove)))
-
-;; Rename files editing their names in dired buffers
-
-
-(use-package projectile :demand t
-  :bind-keymap ("C-c p" . projectile-command-map)
-
-  :config
-  (setq projectile-mode-line-prefix " P"
-        projectile-completion-system 'ivy)
-  (projectile-mode 1))
-
-(use-package ibuffer-projectile)
-
-(use-package ivy :diminish :demand t
-  :bind (("C-c C-r" . ivy-resume)
-         :map ivy-minibuffer-map
-         ("C-'" . ivy-avy))
-  :config
-  (setq-default ivy-use-virtual-buffers t ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’
-                ivy-height 25 ;; number of result lines to display
-                ivy-initial-inputs-alist nil ;; don't add ^ by default
-                projectile-completion-system 'ivy ;; use ivy for projectile
-                smex-completion-method 'ivy ;;  use ivy for smex
-                )
-
-  (ivy-mode 1))
-
-(use-package counsel
-  :diminish
-  :bind (("M-x" . counsel-M-x)
-         ("C-x C-r" . counsel-resume)
-         ("C-h v" . counsel-describe-variable)
-         ("C-h f" . counsel-describe-function)
-         ("C-x C-f" . counsel-find-file)
-         ("C-c j" . counsel-file-jump)
-         :map  minibuffer-local-map
-         ("C-r" . counsel-minibuffer-history)))
-
-(use-package counsel-projectile :demand t
-  :after projectile
-  :config
-  (counsel-projectile-mode 1))
-
-(use-package magit
-  :bind ("C-x g" . magit-status)
-  :config
-  (setq magit-completing-read-function 'ivy-completing-read
-        magit-display-buffer-function 'magit-display-buffer-fullframe-status-topleft-v1))
-
-(use-package magit-todos :disabled t
-  :hook (magit-status-mode . magit-todos-mode))
-
-
-(use-package tramp)
-(use-package counsel-tramp
-  :commands counsel-tramp)
-
-
-(use-package swiper
-  :bind (("C-s" . swiper)))
-
-;; ;; A front-end for ag ('the silver searcher'), the C ack replacement.
-(use-package ag)
-
-(use-package move-dup
-  :bind (("M-<up>" . md-move-lines-up)
-         ("M-<down>" . md-move-lines-down)
-         ("M-S-<up>" . md-duplicate-up)
-         ("M-S-<down>" . md-duplicate-down)))
-
-(use-package rust-mode)
-(use-package racer)
-
-(use-package which-key :defer 1 :diminish which-key-mode
-  :config
-  (setq-default which-key-popup-type 'side-window
-                which-key-idle-delay 0.3
-                which-key-sort-order 'which-key-prefix-then-key-order)
-
-  (which-key-mode 1))
-
-
-(use-package polymode)
-
-
-;; ;; Polymode for Ansible: Jinja2 + Yaml
-;; (use-package poly-ansible
-;;   :mode ("\\.yml\\'" . poly-ansible-mode))
+;; ;; Settings
+;; (customize-set-variable 'avy-timeout-seconds 0.3)
+;; (customize-set-variable 'column-number-mode t)
+;; (customize-set-variable 'company-box-max-candidates 20)
+;; (customize-set-variable 'company-dabbrev-ignore-case t)
+;; (customize-set-variable 'company-dabbrev-downcase nil)
+;; (customize-set-variable 'company-dabbrev-other-buffers t)
+;; (customize-set-variable 'company-echo-delay 0)
+;; (customize-set-variable 'company-idle-delay 0.1)
+;; (customize-set-variable 'company-tooltip-limit 20)
+;; (customize-set-variable 'company-minimum-prefix-length 2)
+;; (customize-set-variable 'company-show-quick-access t)
+;; (customize-set-variable 'compilation-ask-about-save nil)
+;; (customize-set-variable 'compilation-scroll-output 'first-error)
+;; (customize-set-variable 'consult-project-function #'project-root)
+;; (customize-set-variable 'create-lockfiles nil)
+;; (customize-set-variable 'custom-safe-themes t)
+;; (customize-set-variable 'delete-selection-mode t)
+;; (customize-set-variable 'desktop-auto-save-timeout 600 "Save desktop after 10 minutes")
+;; (customize-set-variable 'desktop-save-mode t)
+;; (customize-set-variable 'dired-auto-revert-buffer t)
+;; (customize-set-variable 'dired-recursive-copies 'always)
+;; (customize-set-variable 'dired-recursive-deletes 'top)
+;; (customize-set-variable 'disabled-command-function nil "Enable all commands")
+;; (customize-set-variable 'docker-image-run-arguments '("-i" "-t" "--rm"))
+;; (customize-set-variable 'editorconfig-mode t)
+;; (customize-set-variable 'global-auto-revert-mode t)
+;; (customize-set-variable 'global-company-mode t)
+;; (customize-set-variable 'global-move-dup-mode t)
+;; (customize-set-variable 'global-so-long-mode t)
+;; ;; (customize-set-variable 'global-undo-tree-mode t) - slows down. TODO: fix
+;; (customize-set-variable 'global-whitespace-mode t)
+;; (customize-set-variable 'inhibit-startup-message t)
+
+;; (customize-set-variable 'line-number-mode t)
+;; (customize-set-variable 'make-backup-files nil)
+;; (customize-set-variable 'marginalia-annotators '(marginalia-annotators-heavy))
+;; (customize-set-variable 'marginalia-mode t)
+;; (customize-set-variable 'projectile-mode t)
+;; (customize-set-variable 'projectile-mode-line-prefix " P")
+;; (customize-set-variable 'python-shell-interpreter "python3")
+;; (customize-set-variable 'recentf-exclude '("/tmp/" "/ssh:"))
+;; (customize-set-variable 'recentf-max-saved-items 50)
+;; (customize-set-variable 'require-final-newline t)
+;; (customize-set-variable 'save-place-mode t)
+;; (customize-set-variable 'savehist-additional-variables '(search-ring regexp-search-ring))
+;; (customize-set-variable 'savehist-autosave-interval nil)
+;; (customize-set-variable 'savehist-mode 1)
+;; (customize-set-variable 'show-paren-mode t)
+;; (customize-set-variable 'split-height-threshold 100)
+;; (customize-set-variable 'split-width-threshold 200)
+;; (customize-set-variable 'switch-window-shortcut-style 'qwerty)
+;; (customize-set-variable 'wgrep-auto-save-buffer t)
+;; (customize-set-variable 'which-key-idle-delay 0.3)
+;; (customize-set-variable 'which-key-mode t)
+;; (customize-set-variable 'which-key-popup-type 'side-window)
+;; (customize-set-variable 'which-key-sort-order 'which-key-prefix-then-key-order)
+;; (customize-set-variable 'whitespace-action '(auto-cleanup warn-read-only))
+;; (customize-set-variable 'whitespace-style '(face trailing space-after-tab space-before-tab missing-newline-at-eof))
+;; (customize-set-variable 'winner-mode t)
+;; (customize-set-variable 'vertico-mode t)
+;; (customize-set-variable 'zoom-ignored-major-modes '(dired-mode))
+;; (customize-set-variable 'zoom-mode t)
+;; (customize-set-variable 'zoom-size '(0.618 . 0.618) "Golden ration")
+
+;; 
+
+;; ;; Auto Completion Section
+
+;; ;; (add-to-list 'company-backends 'company-ansible)
+;; ;; (add-to-list 'company-backends 'company-terraform)
+;; ;; (add-to-list 'company-backends '(company-shell company-shell-env company-dabbrev))
+;; ;; (add-to-list 'company-backends 'company-racer)
+;; (add-to-list 'company-backends 'company-dabbrev)
+;; (add-to-list 'company-backends 'company-capf)
+
+;; ;; (setenv "RUST_SRC_PATH" (expand-file-name "~/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src"))
+
+;; 
+;; ;; hooks
+
+(add-hook 'package-menu-mode-hook #'hl-line-mode)
+;; (add-hook 'company-mode-hook #'company-box-mode)
+;; (add-hook 'conf-mode-hook #'symbol-overlay-mode)
+;; (add-hook 'dired-mode-hook #'diff-hl-dired-mode)
+;; (add-hook 'dired-mode-hook #'diredfl-mode)
+(add-hook 'emacs-lisp-mode-hook #'page-break-lines-mode)
+;; (add-hook 'html-mode-hook #'symbol-overlay-mode)
+;; (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh)
+;; (add-hook 'magit-pre-refresh-hook #'diff-hl-magit-pre-refresh)
+;; ;; (add-hook 'prog-mode-hook #'aggressive-indent-mode)
+;; (add-hook 'prog-mode-hook #'diff-hl-mode)
+;; (add-hook 'prog-mode-hook #'electric-pair-mode)
+(add-hook 'prog-mode-hook #'fira-code-mode)
+;; (add-hook 'prog-mode-hook #'hl-line-mode)
+;; (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+;; (add-hook 'prog-mode-hook #'subword-mode)
+;; (add-hook 'prog-mode-hook #'symbol-overlay-mode)
+;; (add-hook 'prog-mode-hook #'yas-minor-mode)
+;; (add-hook 'ruby-mode-hook #'enh-ruby-mode)
+;; (add-hook 'scheme-mode-hook #'page-break-lines-mode)
+;; (add-hook 'terraform-mode-hook #'company-terraform-init)
+;; (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
+;; (add-hook 'terraform-mode-hook #'lsp-deferred)
+;; (add-hook 'text-mode-hook #'hl-line-mode)
+;; (add-hook 'yaml-mode-hook #'symbol-overlay-mode)
 
 
 
-;; ;; Ruby ERB
-;; ;; TODO: configure it
-;; (use-package poly-erb
-;;   :mode (("\\.coffee\\.erb\\'" . poly-coffee+erb-mode)
-;;          ("\\.js\\.erb\\'" . poly-js+erb-mode))
-;;          ("\\.html\\.erb\\'" . poly-html+erb-mode))
+;; ;; Key bindings
+
+;; replace with keymap-global-set / keymap-set
+;; (global-set-key [remap switch-to-buffer] #'consult-buffer)
+;; (global-set-key [remap switch-to-buffer-other-window] #'consult-buffer-other-window)
+;; (global-set-key [remap yank-pop] #'consult-yank-pop)
+;; (global-set-key [remap goto-line] #'consult-goto-line)
+;; (global-set-key [remap switch-to-buffer-other-frame] #'consult-buffer-other-frame)
+;; (define-key company-active-map (kbd "M-/") #'company-other-backend)
+;; (define-key company-active-map (kbd "C-n") #'company-select-next)
+;; (define-key company-active-map (kbd "C-p") #'company-select-previous)
+;; (define-key dired-mode-map (kbd "<tab>") #'dired-subtree-toggle)
+;; (define-key dired-mode-map (kbd "i") #'dired-subtree-insert)
+;; (define-key dired-mode-map (kbd ";") #'dired-subtree-remove)
+;; (define-key mc/keymap (kbd "C-s") #'phi-search)
+;; (define-key mc/keymap (kbd "C-r") #'phi-search-backward)
+;; (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+
+;; (global-set-key (kbd "<f6>") 'recompile)
+;; (global-set-key (kbd "C-'") #'avy-goto-line)
+;; (global-set-key (kbd "C-)") #'ace-mc-add-multiple-cursors)
+;; (global-set-key (kbd "C-;") #'avy-goto-char-timer)
+;; (global-set-key (kbd "C-<") #'mc/mark-previous-like-this)
+;; (global-set-key (kbd "C-=") #'er/expand-region)
+;; (global-set-key (kbd "C->") #'mc/mark-next-like-this)
+;; (global-set-key (kbd "C-S-a") #'embark-act)
+;; (global-set-key (kbd "C-c C-'") #'mc-hide-unmatched-lines-mode)
+;; (global-set-key (kbd "C-c C-o") #'embark-export)
+;; (global-set-key (kbd "C-c d") #'docker)
+;; (global-set-key (kbd "C-c m m") #'mc/mark-all-dwim)
+;; (global-set-key (kbd "C-c m s") #'mc/skip-to-next-like-this)
+;; (global-set-key (kbd "C-s") #'consult-line)
+;; ;; (global-set-key (kbd "C-x 0") #'switch-window-then-delete)
+;; ;; (global-set-key (kbd "C-x 1") #'switch-window-then-maximize)
+;; ;; (global-set-key (kbd "C-x 2") #'switch-window-then-split-below)
+;; ;; (global-set-key (kbd "C-x 3") #'switch-window-then-split-right)
+;; ;; (global-set-key (kbd "C-x 4 d") #'switch-window-then-dired)
+;; (global-set-key (kbd "C-x C-b") #'ibuffer)
+;; (global-set-key (kbd "C-x o") #'switch-window)
+;; (global-set-key (kbd "M-Z") #'avy-zap-up-to-char-dwim)
+;; (global-set-key (kbd "M-i") #'symbol-overlay-put)
+;; (global-set-key (kbd "M-n") #'symbol-overlay-jump-next)
+;; (global-set-key (kbd "M-p") #'symbol-overlay-jump-prev)
+;; (global-set-key (kbd "M-z") #'avy-zap-up-to-char-dwim)
 
 
 
-(use-package toml-mode)
-(use-package yaml-mode)
+;; 
+;; (with-eval-after-load 'company-box (diminish 'company-box-mode))
+;; (with-eval-after-load 'editorconfig (diminish 'editorconfig-mode))
+;; (with-eval-after-load 'fira-code-mode (diminish 'fira-code-mode))
+;; (with-eval-after-load 'move-dup (diminish 'move-dup-mode))
+;; (with-eval-after-load 'page-break-lines (diminish 'page-break-lines-mode))
+;; (with-eval-after-load 'subword (diminish 'subword-mode))
+;; (with-eval-after-load 'symbol-overlay (diminish 'symbol-overlay-mode))
+;; (with-eval-after-load 'which-key (diminish 'which-key-mode))
+;; (with-eval-after-load 'whitespace (diminish 'whitespace-mode))
+;; (with-eval-after-load 'zoom (diminish 'zoom-mode))
 
+;; 
 
-(use-package aggressive-indent :demand t
-  :config
-  (global-aggressive-indent-mode 1))
-
-(use-package systemd)
-(use-package daemons)
-(use-package json-mode)
-
-(use-package markdown-mode)
-
-(use-package ansible)
-(use-package ansible-doc)
-(use-package ansible-vault)
-(use-package company-ansible)
-
-(use-package polymode)
-(use-package poly-ansible)
-(use-package poly-markdown)
-
-(use-package docker
-  :bind ("C-c d" . docker)
-  :custom (docker-image-run-arguments '("-i" "-t" "--rm")))
-
-(use-package dockerfile-mode)
-(use-package docker-compose-mode)
-(use-package apache-mode)
-(use-package nginx-mode)
-
-;; TODO: performance
-(use-package company-box :diminish
-  :hook (company-mode . company-box-mode)
-  :custom
-  (company-box-max-candidates 50)
-  (company-box-doc-delay 0.3))
-
-(use-package company-shell
-  :after company
-  :commands company-shell
-  :config (add-to-list 'company-backends 'company-shell))
-
-;; Some day I will enable this
-;; (use-package tree-sitter :demand t
-;;   :hook
-;;   (tree-sitter-after-on . tree-sitter-hl-mode)
-;;   :config
-;;   (global-tree-sitter-mode 1))
-
-;; (use-package tree-sitter-langs :after tree-sitter)
-
-(use-package discover-my-major
-  :bind ("C-h C-m" . discover-my-major))
-
-(use-package dumb-jump
-  :bind
-  ;; (:map prog-mode-map
-  ;;       (("C-c C-o" . dumb-jump-go-other-window)
-  ;;        ("C-c C-j" . dumb-jump-go)
-  ;;        ("C-c C-i" . dumb-jump-go-prompt)))
-  :custom
-  (dumb-jump-selector 'ivy))
-
-(use-package format-all :disabled t)
-
-(use-package request :defer t :disabled t)
-(use-package lsp-mode :disabled t)
-(use-package lsp-ui :disabled t)
-(use-package dap-mode :disabled t)
-(use-package lsp-java :disabled t
-  :after lsp-mode
-  :custom
-  (lsp-java-server-install-dir (expand-file-name "~/.emacs.d/eclipse.jdt.ls/server/"))
-  (lsp-java-workspace-dir (expand-file-name "~/.emacs.d/eclipse.jdt.ls/workspace/")))
-
-(use-package python-mode
-  :config
-  (setq-default python-shell-interpreter "python3"))
-
-(use-package pip-requirements)
-(use-package anaconda-mode)
-(use-package company-anaconda)
-(use-package lsp-pyre :disabled t)
-
-(use-package web-mode :disabled t)
-(use-package emmet-mode :disabled t)
-(use-package js2-mode :disabled t)
-(use-package csv-mode :disabled t)
-
-(use-package yasnippet :diminish :disabled t
-  :hook (prog-mode . snippet-mode)
-  :config
-  (yas-reload-all))
-
-(use-package yasnippet-snipptets :disabled t
-  :after yasnippet
-  :config
-  (add-to-list company-backends 'company-yasnippet))
-
-;; (use-package slim)
-;; (use-package hippie-expand-slime)
-;; (use-package slime-company)
-;; (use-package elisp-slime-nav)
-
-(use-package page-break-lines :diminish
-  :hook (emacs-lisp-mode . page-break-lines-mode))
-
-(use-package ipretty)
-(use-package auto-compile :disabled t)
-
-(use-package flyspell-correct-ivy
-  :init
-  (setq flyspell-correct-interface #'flyspell-correct-ivy))
-
-(use-package google-translate
-  :init
-  (setq google-translate-default-source-language "en"
-        google-translate-default-target-language "ru"))
-
-;; Set global hotkeys
-
-(global-set-key [f6] 'recompile)
+(windmove-default-keybindings 'control)
+(windmove-swap-states-default-keybindings '(shift control))
 
 (provide 'init)
-;;; init.el ends here
-
+;; ;;; init.el ends here

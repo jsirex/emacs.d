@@ -2,7 +2,6 @@
 
 SUDO=${SUDO:-sudo}
 EMACS_DIR=$(cd $(dirname $0); pwd)
-EMACS_CACHE_DIR="$EMACS_DIR/.cache"
 
 if [ "$(whoami)" == "root" ]; then
     SUDO=""
@@ -39,29 +38,13 @@ ensure_system_package() {
     fi
 }
 
-install_fira_code_nerd_font() {
-    local fira_code_nerd_version="v2.1.0"
-    local fira_code_nerd_source="https://github.com/ryanoasis/nerd-fonts/releases/download/${fira_code_nerd_version}/FiraCode.zip"
-    local fira_code_nerd_filename="$EMACS_CACHE_DIR/FiraCode-${fira_code_nerd_version}.zip"
-    local local_fonts_dir=~/.local/share/fonts/
+if [ -z $EMACS_SNAPSHOT ]; then
+    echo "note: export EMACS_SNAPSHOT=t to install emacs-snapshot"
+else
+    echo add_emacs_snapshot_repo
+    echo ensure_system_package "emacs-snapshot"
+fi
 
-    if [[ -f "$fira_code_nerd_filename" ]]; then
-        echo "Using cached font archive: $fira_code_nerd_filename"
-    else
-        wget -c "$fira_code_nerd_source" -O "$fira_code_nerd_filename"
-    fi
-
-    unzip -o -u -d "$local_fonts_dir" "$fira_code_nerd_filename"
-    fc-cache "$local_fonts_dir"
-}
-
-mkdir -p "$EMACS_CACHE_DIR"
-
-# Install Fira Code Nerd Font
-install_fira_code_nerd_font
-
-add_emacs_snapshot_repo
-
-ensure_system_package "emacs-snapshot"
+ensure_system_package "fonts-firacode"
 ensure_system_package "editorconfig"
 ensure_system_package "shellcheck"

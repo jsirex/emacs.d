@@ -1,45 +1,51 @@
 ;;; early-init.el -*- lexical-binding: t; -*-
 
-;;; Emacs HEAD (27+) introduces early-init.el, which is run before init.el,
-;;; before most of its package and UI initialization happens.
+;; Copyright (C) 2023  Yauhen Artsiukhou
 
-(setq lexical-binding t)
+;; Author: Yauhen Artsiukhou <jsirex@gmail.com>
+;; Keywords: lisp
 
-;; Temporary turn off file name handlers
-(defvar file-name-handler-alist-original file-name-handler-alist)
-(setq file-name-handler-alist nil)
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
 
-;; Defer garbage collection further back in the startup process
-(setq gc-cons-threshold most-positive-fixnum)
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
 
-;; Restore garbage collection and file name handlers
-(add-hook 'after-init-hook
-          (lambda ()
-            (setq gc-cons-threshold 134217728 ; 128 MB
-                  gc-cons-percentage 0.1
-                  file-name-handler-alist file-name-handler-alist-original)
-            (garbage-collect)))
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-;; Faster to disable these here (before they've been initialized)
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-(horizontal-scroll-bar-mode -1)
+;;; Commentary:
 
-;; We're going to manually initialize packages
-(setq package-enable-at-startup nil)
+;;; Emacs (27+) introduces early-init.el, which is run before init.el.
+;;; This file is loaded before the package system and GUI is initialized
 
-;; Resizing the Emacs frame can be a terribly expensive part of changing the
-;; font. By inhibiting this, we easily halve startup times with fonts that are
-;; larger than the system default.
-(setq frame-inhibit-implied-resize t)
+;;; Code:
 
-;; Early set font face
-(add-to-list 'default-frame-alist '(font . "FuraCode Nerd Font Mono"))
-(set-face-attribute 'default nil :family "FuraCode Nerd Font Mono" :height 80)
+;; Garbage collection:
+;; set threshold temporary to half available memory,
+;; then set it back to 4 MB
+(setopt gc-cons-threshold (* 512 (car (memory-info))))
+(add-hook 'emacs-startup-hook
+          (lambda () (setopt gc-cons-threshold (* 4 1024 1024)) (garbage-collect)))
+
 
-;; These so obvious so I put it there
-(defalias 'yes-or-no-p 'y-or-n-p)
+;; Tweak GUI before Initialization
+(setopt scroll-bar-mode nil)
+(setopt menu-bar-mode nil)
+(setopt tool-bar-mode nil)
+(setopt tooltip-mode nil)
+
+(setopt frame-inhibit-implied-resize t)
+
+(set-face-attribute 'default nil :family "Fira Code" :height 120 :weight 'normal :width 'normal)
+
+
+;; Packages
+(setopt package-enable-at-startup nil)
 
 (provide 'early-init)
 ;;; early-init.el ends here
