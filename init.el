@@ -497,10 +497,10 @@
 (use-package ag)
 
 (use-package move-dup
-  :bind (("M-<up>" . md-move-lines-up)
-         ("M-<down>" . md-move-lines-down)
-         ("M-S-<up>" . md-duplicate-up)
-         ("M-S-<down>" . md-duplicate-down)))
+  :bind (("M-<up>" . move-dup-move-lines-up)
+         ("M-<down>" . move-dup-move-lines-down)
+         ("M-S-<up>" . move-dup-duplicate-up)
+         ("M-S-<down>" . move-dup-duplicate-down)))
 
 (use-package rust-mode)
 (use-package racer)
