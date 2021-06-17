@@ -29,7 +29,7 @@
 (customize-set-variable 'tooltip-mode nil)
 
 ;; Early set font face
-(set-face-attribute 'default nil :family "FuraCode Nerd Font Mono" :height 80)
+(set-face-attribute 'default nil :family "FuraCode Nerd Font Mono" :height 100)
 
 
 

@@ -40,25 +40,93 @@
   (add-to-list 'package-archives '("org"   . "https://orgmode.org/elpa/") t)
 
   (customize-set-variable 'package-quickstart t "Merge all autoloads into single file")
-  (customize-set-variable 'package-selected-packages '( ag ace-mc
-                                                        aggressive-indent ansible ansible-doc ansible-vault
-                                                        apache-mode avy avy-zap bundler color-theme-sanityinc-tomorrow
-                                                        company company-ansible company-box company-go company-lsp
-                                                        company-nginx company-prescient company-racer company-shell
-                                                        company-terraform consult diff-hl diminish dired-subtree
-                                                        diredfl docker docker-compose-mode dockerfile-mode
-                                                        editorconfig embark enh-ruby-mode expand-region fira-code-mode
-                                                        flycheck flycheck-elixir flycheck-guile flycheck-rust
-                                                        git-timemachine gitattributes-mode gitconfig-mode
-                                                        gitignore-mode gitlab-ci-mode gitlab-ci-mode-flycheck go-guru
-                                                        go-mode golint json-mode lsp-java lsp-ui magit marginalia
-                                                        markdown-mode move-dup multiple-cursors nginx-mode orderless
-                                                        page-break-lines phi-search prescient projectile python-mode
-                                                        racer rainbow-delimiters rust-mode rvm selectrum
-                                                        selectrum-prescient switch-window symbol-overlay systemd
-                                                        terraform-mode toml-mode undo-tree unkillable-scratch wgrep
-                                                        wgrep-ag which-key yaml-mode yard-mode yari yasnippet
-                                                        yasnippet-snippets zoom ))
+  (customize-set-variable 'package-selected-packages '( ace-mc
+                                                        ag
+                                                        aggressive-indent
+                                                        ansible
+                                                        ansible-doc
+                                                        ansible-vault
+                                                        apache-mode
+                                                        avy
+                                                        avy-zap
+                                                        bundler
+                                                        color-theme-sanityinc-tomorrow
+                                                        company
+                                                        company-ansible
+                                                        company-box
+                                                        company-go
+                                                        company-nginx
+                                                        company-prescient
+                                                        company-racer
+                                                        company-shell
+                                                        company-terraform
+                                                        consult
+                                                        diff-hl
+                                                        diminish
+                                                        dired-subtree
+                                                        diredfl
+                                                        docker
+                                                        docker-compose-mode
+                                                        dockerfile-mode
+                                                        editorconfig
+                                                        embark
+                                                        enh-ruby-mode
+                                                        expand-region
+                                                        fira-code-mode
+                                                        flycheck
+                                                        flycheck-elixir
+                                                        flycheck-guile
+                                                        flycheck-rust
+                                                        geiser
+                                                        geiser-guile
+                                                        git-timemachine
+                                                        gitattributes-mode
+                                                        gitconfig-mode
+                                                        gitignore-mode
+                                                        gitlab-ci-mode
+                                                        gitlab-ci-mode-flycheck
+                                                        go-guru
+                                                        go-mode
+                                                        golint
+                                                        json-mode
+                                                        lsp-java
+                                                        lsp-ui
+                                                        magit
+                                                        marginalia
+                                                        markdown-mode
+                                                        move-dup
+                                                        multiple-cursors
+                                                        nginx-mode
+                                                        orderless
+                                                        page-break-lines
+                                                        phi-search
+                                                        prescient
+                                                        projectile
+                                                        python-mode
+                                                        racer
+                                                        rainbow-delimiters
+                                                        rust-mode
+                                                        rvm
+                                                        selectrum
+                                                        selectrum-prescient
+                                                        slime
+                                                        slime-company
+                                                        switch-window
+                                                        symbol-overlay
+                                                        systemd
+                                                        terraform-mode
+                                                        toml-mode
+                                                        undo-tree
+                                                        unkillable-scratch
+                                                        wgrep
+                                                        wgrep-ag
+                                                        which-key
+                                                        yaml-mode
+                                                        yard-mode
+                                                        yari
+                                                        yasnippet
+                                                        yasnippet-snippets
+                                                        zoom ))
 
   ;; Initialize, but do not load package-quickstart.el
   (package-initialize t)
@@ -76,6 +144,11 @@
   (dolist (pkg package-selected-packages)
 	(require pkg)))
 
+;; Temporary test explicit required of all packages
+(dolist (pkg package-selected-packages)
+  (require pkg))
+
+;; These must be activated on runtime
 (require 'dired)
 (require 'multiple-cursors)
 (require 'projectile)
@@ -132,9 +205,11 @@
 (customize-set-variable 'savehist-autosave-interval nil)
 (customize-set-variable 'savehist-mode 1)
 (customize-set-variable 'selectrum-mode t)
+;; (customize-set-variable 'selectrum-prescient-mode t)
 (customize-set-variable 'show-paren-mode t)
 (customize-set-variable 'split-height-threshold 100)
 (customize-set-variable 'split-width-threshold 200)
+(customize-set-variable 'switch-window-shortcut-style 'qwerty)
 (customize-set-variable 'undo-tree-visualizer-diff t)
 (customize-set-variable 'undo-tree-visualizer-relative-timestamps t)
 (customize-set-variable 'undo-tree-visualizer-timestamps t)
@@ -156,15 +231,15 @@
 
 ;; Auto Completion Section
 
-(add-to-list 'company-backends 'company-ansible)
-(add-to-list 'company-backends 'company-terraform)
-(add-to-list 'company-backends '(company-shell company-shell-env company-capf))
-(add-to-list 'company-backends 'company-racer)
+;; (add-to-list 'company-backends 'company-ansible)
+;; (add-to-list 'company-backends 'company-terraform)
+;; (add-to-list 'company-backends '(company-shell company-shell-env company-dabbrev))
+;; (add-to-list 'company-backends 'company-racer)
 
 ;; (setenv "RUST_SRC_PATH" (expand-file-name "~/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src"))
 
 
-;; Key bindings
+;; hooks
 
 (add-hook 'company-mode-hook #'company-box-mode)
 (add-hook 'conf-mode-hook #'symbol-overlay-mode)
@@ -184,12 +259,15 @@
 (add-hook 'prog-mode-hook #'symbol-overlay-mode)
 (add-hook 'prog-mode-hook #'yas-minor-mode)
 (add-hook 'ruby-mode-hook #'enh-ruby-mode)
+(add-hook 'scheme-mode-hook #'page-break-lines-mode)
 (add-hook 'terraform-mode-hook #'company-terraform-init)
 (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
 (add-hook 'text-mode-hook #'hl-line-mode)
 (add-hook 'yaml-mode-hook #'symbol-overlay-mode)
 
 
+
+;; Key bindings
 
 (global-set-key [remap switch-to-buffer] #'consult-buffer)
 (global-set-key [remap switch-to-buffer-other-window] #'consult-buffer-other-window)
