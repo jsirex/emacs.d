@@ -61,6 +61,7 @@
                                                         company-shell
                                                         company-terraform
                                                         consult
+                                                        csv-mode
                                                         diff-hl
                                                         diminish
                                                         dired-subtree
