@@ -161,6 +161,7 @@
 (customize-set-variable 'column-number-mode t)
 (customize-set-variable 'company-box-max-candidates 20)
 (customize-set-variable 'company-dabbrev-ignore-case t)
+(customize-set-variable 'company-dabbrev-downcase nil)
 (customize-set-variable 'company-dabbrev-other-buffers t)
 (customize-set-variable 'company-echo-delay 0)
 (customize-set-variable 'company-idle-delay 0.1)
