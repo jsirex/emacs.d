@@ -80,10 +80,8 @@
                                                         flycheck-rust
                                                         geiser
                                                         geiser-guile
+                                                        git-modes
                                                         git-timemachine
-                                                        gitattributes-mode
-                                                        gitconfig-mode
-                                                        gitignore-mode
                                                         gitlab-ci-mode
                                                         gitlab-ci-mode-flycheck
                                                         go-guru
