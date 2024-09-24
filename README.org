@@ -10,39 +10,9 @@ This is my emacs configuration: https://github.com/jsirex/emacs.d
   I like to getting new things as soon as possible, so don't hesitate to use latest versions:
 
   - ~Debian GNU/Linux Testing~
-  - ~emacs from source~ (/currently >= 29.0/)
+  - ~emacs from source~ (/currently >= 30.0/)
 
   There are lots of stuff required to emacs function properly: compilers, tools, cli, fonts, etc...
-
-  For that purpose I added ~install.sh~ which is safe to run multiple times.
-
-  #+BEGIN_QUOTE
-  Script must be run as regular user, but it *requires sudo*!
-  #+END_QUOTE
-
-  Here is example of installation procedure:
-
-  #+BEGIN_SRC shell-script
-    cd ~
-
-    git clone github.com:<your-user>/emacs.d ~/.emacs.d
-    cd ~/.emacs.d
-
-    git remote add upstream https://github.com/jsirex/emacs.d.git
-
-    # initial installation of emacs binaries
-    # if required, you can override sudo command by:
-    # SUDO="sudo -i -A"
-    ./install.sh
-
-    # Byte compile files
-    make
-
-    # run
-    emacs
-  #+END_SRC
-
-  That's it!
 
 * Configuration principles
 
@@ -54,23 +24,6 @@ This is my emacs configuration: https://github.com/jsirex/emacs.d
 
   1. Keep 3rd party packages as minimum as possible. Prefer stock functions.
   2. Try to ~defer~ loading every package until it actually requied.
-  3. Use ~package-user-dir~ based on your emacs version. This prevents bytecode incompatibility.
-
-* Compilation
-
-  There is two possible ways to start emacs: from compiled files and not.
-  Compiled version loads faster and prefered in day to day work.
-  But if you want modify emacs itself (this file) new changes will take effect after compilation.
-  So it is better idea to clean compiled files with ~make clean~, work under emacs configuration.
-  When ready - do a final compile: ~make~.
-
-
-* TODO
-
-1. DBUS
-2. URL
-3. TREE Sitter
-4. Native Compilation
 
 * Forking | Using | Contributing
 
