@@ -31,21 +31,17 @@
 (setopt gc-cons-threshold (* 512 (car (memory-info))))
 (add-hook 'emacs-startup-hook
           (lambda () (setopt gc-cons-threshold (* 4 1024 1024)) (garbage-collect)))
-
 
+
 ;; Tweak GUI before Initialization
-(setopt scroll-bar-mode nil)
-(setopt menu-bar-mode nil)
-(setopt tool-bar-mode nil)
-(setopt tooltip-mode nil)
+(setopt scroll-bar-mode nil
+        menu-bar-mode nil
+        tool-bar-mode nil
+        tooltip-mode nil
+        frame-inhibit-implied-resize t)
 
-(setopt frame-inhibit-implied-resize t)
-
-(set-face-attribute 'default nil :family "Fira Code" :height 120 :weight 'normal :width 'normal)
 
-
-;; Packages
-(setopt package-enable-at-startup nil)
+(set-face-attribute 'default nil :family "Fira Code" :height 120 :weight 'normal :width 'normal)
 
 (provide 'early-init)
 ;;; early-init.el ends here
