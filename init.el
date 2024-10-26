@@ -62,7 +62,6 @@
           fira-code-mode
           ;; flymake-clippy maybe, requires extra steps
           ;; flymake-ruby    ; maybe just use info from eglot
-          flymake-shellcheck
           ;; flymake-yamllint
           ;; forge
           ;; format-all maybe later - looks good for formatting everything on save
@@ -201,6 +200,10 @@
   :init
   (keymap-global-set "M-/" #'hippie-expand))
 
+(use-package ibuffer :ensure nil
+  :init
+  (keymap-global-set "C-x C-b" #'ibuffer-jump))
+
 (use-package indent :ensure nil
   :init
   (setopt tab-always-indent 'complete))
@@ -219,15 +222,15 @@
   :init
   (setopt show-paren-mode t))
 
-(use-package subword :ensure nil :diminish
-  :init
-  (add-hook 'prog-mode-hook #'subword-mode))
-
 (use-package recentf :ensure nil
   :init
   (setopt recentf-mode t
           recentf-max-saved-items 100
           recentf-exclude '("/tmp/" "/ssh:")))
+
+(use-package subword :ensure nil :diminish
+  :init
+  (add-hook 'prog-mode-hook #'subword-mode))
 
 (use-package savehist :ensure nil
   ;; Save minibuffer history
@@ -271,7 +274,7 @@
 
 (use-package window :ensure nil
   :init
-  (setopt split-width-threshold 200
+  (setopt split-width-threshold 160
           split-height-threshold 100))
 
 (use-package winner :ensure nil
@@ -309,6 +312,7 @@
 (use-package corfu
   :init
   (setopt global-corfu-mode t
+          corfu-auto t
           corfu-count 20
           corfu-max-width 200
           corfu-min-width 50
@@ -396,6 +400,8 @@
 
 (use-package orderless)
 
+;; (use-package sly)
+
 (use-package switch-window
   :init
   (setopt switch-window-shortcut-style 'qwerty)
@@ -410,6 +416,10 @@
   (keymap-global-set "M-i" #'symbol-overlay-put)
   (keymap-global-set "M-n" #'symbol-overlay-jump-next)
   (keymap-global-set "M-p" #'symbol-overlay-jump-prev))
+
+(use-package treesit-auto
+  :init
+  (setopt treesit-auto-install 'prompt))
 
 (use-package vertico
   :init
