@@ -400,6 +400,12 @@
 
 (use-package orderless)
 
+(use-package phi-search
+  :init
+  (with-eval-after-load 'multiple-cursors
+    (keymap-set mc/keymap "C-s" #'phi-search)
+    (keymap-set mc/keymap "C-r" #'phi-search-backward)))
+
 ;; (use-package sly)
 
 (use-package switch-window
