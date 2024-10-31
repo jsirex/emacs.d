@@ -158,7 +158,8 @@
   :init
   (setopt desktop-save-mode t
       desktop-save t
-      desktop-auto-save-timeout 600))
+      desktop-auto-save-timeout 600
+      desktop-restore-frames nil))
 
 (use-package editorconfig :ensure nil
   :init
@@ -178,7 +179,6 @@
   :init
   (setopt auto-save-default nil
           make-backup-files nil
-          major-mode-remap-alist nil
           require-final-newline t)
   (cl-pushnew '(sh-mode . bash-ts-mode) major-mode-remap-alist :test #'equal))
 
@@ -308,11 +308,10 @@
 
 (use-package consult-ag)
 (use-package consult-project-extra)
-
 (use-package corfu
   :init
   (setopt global-corfu-mode t
-          corfu-auto t
+          corfu-auto nil
           corfu-count 20
           corfu-max-width 200
           corfu-min-width 50
@@ -411,7 +410,8 @@
 (use-package switch-window
   :init
   (setopt switch-window-shortcut-style 'qwerty)
-  (keymap-global-set "C-x o" #'switch-window))
+  (keymap-global-set "C-x o" #'switch-window)
+  (keymap-global-set "C-x 0" #'switch-window-then-delete))
 
 (use-package symbol-overlay :diminish
   :init
@@ -425,7 +425,8 @@
 
 (use-package treesit-auto
   :init
-  (setopt treesit-auto-install 'prompt))
+  (setopt treesit-auto-install 'prompt)
+  (add-hook 'prog-mode-hook #'treesit-auto-mode))
 
 (use-package vertico
   :init
