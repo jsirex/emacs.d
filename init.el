@@ -47,10 +47,7 @@
 (defconst +package-todo+
         '(
           ;; Finished A,B,C
-          ;; ansible maybe fork it? some stange bugs and give almost nothing except font-locking
-          apache-mode
           auctex ;; for latex/tex files
-          ;; maybe avy-embark-collect
           ;; bats-mode
           ;; cape
           ;; cargo-transient
@@ -93,7 +90,6 @@
           ;; terraform-mode
           toml-mode
           sly
-          systemd
           ;; yaml-mode
           ;; yard-mode
           ;; zerodark-theme -> all-the-icons -> maybe?
@@ -306,8 +302,9 @@
   (keymap-global-set "<remap> <yank-pop>" #'consult-yank-pop)
   (keymap-global-set "<remap> <goto-line>" #'consult-goto-line))
 
-(use-package consult-ag)
-(use-package consult-project-extra)
+;; (use-package consult-ag)
+;; (use-package consult-project-extra)
+
 (use-package corfu
   :init
   (setopt global-corfu-mode t
@@ -405,6 +402,10 @@
     (keymap-set mc/keymap "C-s" #'phi-search)
     (keymap-set mc/keymap "C-r" #'phi-search-backward)))
 
+(use-package rainbow-delimiters
+  :init
+  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+
 ;; (use-package sly)
 
 (use-package switch-window
@@ -422,6 +423,8 @@
   (keymap-global-set "M-i" #'symbol-overlay-put)
   (keymap-global-set "M-n" #'symbol-overlay-jump-next)
   (keymap-global-set "M-p" #'symbol-overlay-jump-prev))
+
+(use-package systemd)
 
 (use-package treesit-auto
   :init
@@ -457,27 +460,15 @@
 ;; hooks
 
 
-;; ;; (add-hook 'prog-mode-hook #'electric-pair-mode)
-;; (add-hook 'prog-mode-hook #'fira-code-mode)
-;; ;; (add-hook 'prog-mode-hook #'hl-line-mode)
-;; ;; (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-;; ;; (add-hook 'prog-mode-hook #'yas-minor-mode)
-;; ;; (add-hook 'ruby-mode-hook #'enh-ruby-mode)
-;; ;; (add-hook 'scheme-mode-hook #'page-break-lines-mode)
-;; ;; (add-hook 'terraform-mode-hook #'company-terraform-init)
-;; ;; (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
-;; ;; (add-hook 'terraform-mode-hook #'lsp-deferred)
-;; ;; (add-hook 'text-mode-hook #'hl-line-mode)
+;; (add-hook 'ruby-mode-hook #'enh-ruby-mode)
+;; (add-hook 'scheme-mode-hook #'page-break-lines-mode)
 
 ;; 
 
 ;; Key bindings
 
-
-;; ;; replace with keymap-global-set / keymap-set
-;; ;; (global-set-key (kbd "<f6>") 'recompile)
-
-
+;; replace with keymap-global-set / keymap-set
+;; (global-set-key (kbd "<f6>") 'recompile)
 
 (provide 'init)
 ;;; init.el ends here
