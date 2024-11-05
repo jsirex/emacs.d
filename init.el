@@ -65,7 +65,6 @@
           ;; geiser
           ;; geiser-guile
           ;; gerrit
-          git-modes
           git-timemachine
           gitlab-ci-mode
           gptel                       ; Interfaces to LLM
@@ -144,7 +143,9 @@
   :init
   (setopt compilation-ask-about-save nil
           compilation-always-kill t
-          compilation-scroll-output 'first-error))
+          compilation-scroll-output 'first-error)
+  (keymap-global-set "<f9>" 'compile)
+  (keymap-global-set "C-<f9>" 'recompile))
 
 (use-package cus-edit :ensure nil
   :init
@@ -348,6 +349,8 @@
   :init
   (keymap-global-set "C-=" #'er/expand-region))
 
+(use-package git-modes)
+
 (use-package magit
   :config
   (add-hook 'magit-pre-refresh-hook #'diff-hl-magit-pre-refresh)
@@ -428,8 +431,7 @@
 
 (use-package treesit-auto
   :init
-  (setopt treesit-auto-install 'prompt)
-  (add-hook 'prog-mode-hook #'treesit-auto-mode))
+  (setopt treesit-auto-install 'prompt))
 
 (use-package vertico
   :init
