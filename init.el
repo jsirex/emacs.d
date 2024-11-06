@@ -338,6 +338,11 @@
   :init
   (add-hook 'dired-mode-hook #'diredfl-mode))
 
+(use-package docker
+  :init
+  (setopt docker-command "podman")
+  (defalias 'podman 'docker))
+
 (use-package embark
   :init
   (keymap-global-set "C-." #'embark-act)
