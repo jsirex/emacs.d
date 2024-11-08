@@ -177,6 +177,8 @@
   (setopt auto-save-default nil
           make-backup-files nil
           require-final-newline t)
+  (cl-pushnew '(dockerfile-mode . dockerfile-ts-mode) major-mode-remap-alist :test #'equal)
+  (cl-pushnew '(python-mode . python-ts-mode) major-mode-remap-alist :test #'equal)
   (cl-pushnew '(sh-mode . bash-ts-mode) major-mode-remap-alist :test #'equal))
 
 (use-package fira-code-mode :diminish
@@ -309,13 +311,13 @@
 (use-package corfu
   :init
   (setopt global-corfu-mode t
-          corfu-auto nil
+          corfu-indexed-mode t
+          corfu-auto t
           corfu-count 20
           corfu-max-width 200
           corfu-min-width 50
           corfu-popupinfo-delay '(0.5 . 0.1)
-          corfu-popupinfo-mode t
-          corfu-preselect 'prompt)
+          corfu-popupinfo-mode t)
   :config
   (keymap-set corfu-map "M-q" #'corfu-quick-complete))
 
