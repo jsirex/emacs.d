@@ -86,7 +86,6 @@
           ;; rust-mode
           ;; terraform-mode
           toml-mode
-          sly
           ;; yaml-mode
           ;; yard-mode
           ;; zerodark-theme -> all-the-icons -> maybe?
@@ -414,7 +413,8 @@
   :init
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
-;; (use-package sly)
+(use-package sly)
+(use-package sly-asdf)
 
 (use-package switch-window
   :init
@@ -456,26 +456,6 @@
   (setopt zoom-mode t
           zoom-ignored-major-modes '(dired-mode)
           zoom-size '(0.618 . 0.618)))
-
-
-
-;; (customize-set-variable 'docker-image-run-arguments '("-i" "-t" "--rm"))
-;; TODO: read https://justinbarclay.ca/posts/from-zero-to-ide-with-emacs-and-lsp/
-
-
-
-;; hooks
-
-
-;; (add-hook 'ruby-mode-hook #'enh-ruby-mode)
-;; (add-hook 'scheme-mode-hook #'page-break-lines-mode)
-
-;; 
-
-;; Key bindings
-
-;; replace with keymap-global-set / keymap-set
-;; (global-set-key (kbd "<f6>") 'recompile)
 
 (provide 'init)
 ;;; init.el ends here
