@@ -29,15 +29,13 @@
 
   ;; like add-to-list it is quite improper to setq a custom variable
   ;; setopt should be used for custom variables, but nobody cares
-  (cl-pushnew '("stable" . "https://stable.melpa.org/packages/") package-archives :test #'equal)
   (cl-pushnew '("melpa"  . "https://melpa.org/packages/")        package-archives :test #'equal)
 
   (setopt package-native-compile t
           package-quickstart t
-          package-archive-priorities '(("gnu"    . 90)
-                                       ("nongnu" . 80)
-                                       ("stable" . 70)
-                                       ("melpa"  . 0 )))
+          package-archive-priorities '(("gnu"    . 0)
+                                       ("nongnu" . 10)
+                                       ("melpa"  . 20)))
 
   (setopt use-package-expand-minimally t
           use-package-always-defer t
