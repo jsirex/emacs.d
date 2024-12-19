@@ -159,13 +159,14 @@
           make-backup-files nil
           require-final-newline t)
 
-  (cl-pushnew '(c-mode . c-ts-mode) major-mode-remap-alist :test #'equal)
-  (cl-pushnew '(c++-mode . c++-ts-mode) major-mode-remap-alist :test #'equal)
-  (cl-pushnew '(csharp-mode . csharp-ts-mode) major-mode-remap-alist :test #'equal)
-  (cl-pushnew '(dockerfile-mode . dockerfile-ts-mode) major-mode-remap-alist :test #'equal)
-  (cl-pushnew '(python-mode . python-ts-mode) major-mode-remap-alist :test #'equal)
-  (cl-pushnew '(sh-mode . bash-ts-mode) major-mode-remap-alist :test #'equal)
-  (cl-pushnew '(yaml-mode . yaml-ts-mode) major-mode-remap-alist :test #'equal))
+  (dolist (mode-map '((c-mode . c-ts-mode)
+                      (c++-mode . c++-ts-mode)
+                      (csharp-mode . csharp-ts-mode)
+                      (dockerfile-mode . dockerfile-ts-mode)
+                      (python-mode . python-ts-mode)
+                      (sh-mode . bash-ts-mode)
+                      (yaml-mode . yaml-ts-mode)))
+    (cl-pushnew mode-map major-mode-remap-alist :test #'equal)))
 
 (use-package fira-code-mode :diminish
   :init
