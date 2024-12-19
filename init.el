@@ -44,17 +44,10 @@
 
 (defconst +package-todo+
         '(
-          ;; Finished A,B,C
-          auctex ;; for latex/tex files
-          ;; bats-mode
-          ;; cape
+          ;; Finished A,B,C,D,E
           ;; cargo-transient
           ;; csv-mode
-          ;; difftastic
-          ;; docker-compose-mode
-          dockerfile-mode
-          expand-region
-          fira-code-mode
+          eglot-java
           ;; flymake-clippy maybe, requires extra steps
           ;; flymake-ruby    ; maybe just use info from eglot
           ;; flymake-yamllint
@@ -63,30 +56,21 @@
           ;; geiser
           ;; geiser-guile
           ;; gerrit
-          git-timemachine
-          gitlab-ci-mode
-          gptel                       ; Interfaces to LLM
           ;; go-mode
           ;; guix
-          ;; json-mode
           ;; nerd-icons
           ;; nerd-icons-completion
           ;; nerd-icons-corfu
           ;; nerd-icons-dired
           ;; nerd-icons-ibuffer
-          ;; python-mode
-          ;; page-break-lines
           ;; poly-ansible
           ;; poly-ansible
           ;; poly-markdown
           ;; poly-ruby
           ;; polymode
-          ;; rainbow-delimiters
           ;; realgud - debugger frontend.. idk
           ;; rust-mode
           ;; terraform-mode
-          toml-mode
-          ;; yaml-mode
           ;; yard-mode
           ;; zerodark-theme -> all-the-icons -> maybe?
           ))
@@ -160,7 +144,7 @@
   (setopt editorconfig-mode t
           editorconfig-mode-lighter ""))
 
-(use-package eglot
+(use-package eglot :ensure nil
   :init
   (setopt eglot-autoshutdown t)
   (add-hook 'prog-mode-hook #'eglot-ensure))
@@ -174,9 +158,14 @@
   (setopt auto-save-default nil
           make-backup-files nil
           require-final-newline t)
+
+  (cl-pushnew '(c-mode . c-ts-mode) major-mode-remap-alist :test #'equal)
+  (cl-pushnew '(c++-mode . c++-ts-mode) major-mode-remap-alist :test #'equal)
+  (cl-pushnew '(csharp-mode . csharp-ts-mode) major-mode-remap-alist :test #'equal)
   (cl-pushnew '(dockerfile-mode . dockerfile-ts-mode) major-mode-remap-alist :test #'equal)
   (cl-pushnew '(python-mode . python-ts-mode) major-mode-remap-alist :test #'equal)
-  (cl-pushnew '(sh-mode . bash-ts-mode) major-mode-remap-alist :test #'equal))
+  (cl-pushnew '(sh-mode . bash-ts-mode) major-mode-remap-alist :test #'equal)
+  (cl-pushnew '(yaml-mode . yaml-ts-mode) major-mode-remap-alist :test #'equal))
 
 (use-package fira-code-mode :diminish
   :init
@@ -290,6 +279,10 @@
   :init
   (keymap-global-set "M-z" #'avy-zap-up-to-char-dwim))
 
+(use-package cape
+  :init
+  (add-hook 'completion-at-point-functions #'cape-file))
+
 (use-package color-theme-sanityinc-tomorrow
   :init
   (load-theme 'sanityinc-tomorrow-eighties t))
@@ -309,7 +302,7 @@
   :init
   (setopt global-corfu-mode t
           corfu-indexed-mode t
-          corfu-auto t
+          corfu-auto nil
           corfu-count 20
           corfu-max-width 200
           corfu-min-width 50
@@ -354,6 +347,9 @@
   (keymap-global-set "C-=" #'er/expand-region))
 
 (use-package git-modes)
+(use-package git-timemachine)
+
+(use-package gptel)
 
 (use-package magit
   :config
@@ -413,7 +409,12 @@
   :init
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
-(use-package sly)
+(use-package sly
+  :config
+  ;; this to keys I use for symbol overlay
+  (keymap-unset sly-editing-mode-map "M-p")
+  (keymap-unset sly-editing-mode-map "M-n"))
+
 (use-package sly-asdf)
 
 (use-package switch-window
