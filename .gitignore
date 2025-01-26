@@ -5,6 +5,7 @@
 /eln-cache
 /elpa
 /eshell/
+/.gptel-custom-backends.el
 /history
 /ignored-custom.el
 /package-quickstart.el

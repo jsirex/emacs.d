@@ -44,13 +44,12 @@
 
 (defconst +package-todo+
         '(
-          ;; Finished A,B,C,D,E
+          ;; Finished A,B,C,D,E,F,G
           ;; cargo-transient
           ;; csv-mode
           eglot-java
           ;; flymake-clippy maybe, requires extra steps
           ;; flymake-ruby    ; maybe just use info from eglot
-          ;; flymake-yamllint
           ;; forge
           ;; format-all maybe later - looks good for formatting everything on save
           ;; geiser
@@ -71,6 +70,7 @@
           ;; realgud - debugger frontend.. idk
           ;; rust-mode
           ;; terraform-mode
+          ;; uv-mode
           ;; yard-mode
           ;; zerodark-theme -> all-the-icons -> maybe?
           ))
@@ -165,6 +165,7 @@
                       (dockerfile-mode . dockerfile-ts-mode)
                       (python-mode . python-ts-mode)
                       (sh-mode . bash-ts-mode)
+                      (typescript-mode . typescript-ts-mode)
                       (yaml-mode . yaml-ts-mode)))
     (cl-pushnew mode-map major-mode-remap-alist :test #'equal)))
 
@@ -175,8 +176,7 @@
 (use-package flymake :ensure nil
   :init
   (setopt flymake-no-changes-timeout 5)
-  (add-hook 'sh-base-mode-hook #'flymake-mode)
-  )
+  (add-hook 'sh-base-mode-hook #'flymake-mode))
 
 (use-package hl-line :ensure nil
   :init
@@ -347,10 +347,19 @@
   :init
   (keymap-global-set "C-=" #'er/expand-region))
 
+(use-package flymake-yamllint
+  :init
+  (add-hook 'yaml-ts-mode-hook 'flymake-yamllint-setup))
+
 (use-package git-modes)
 (use-package git-timemachine)
 
-(use-package gptel)
+(use-package gptel
+  :init
+  (load (expand-file-name (locate-user-emacs-file ".gptel-custom-backends")))
+
+  :config
+  (keymap-set gptel-mode-map "C-c ." #'gptel-menu))
 
 (use-package magit
   :config
@@ -411,6 +420,8 @@
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
 (use-package sly
+  :init
+  (setopt inferior-lisp-program "sbcl --dynamic-space-size 4GB")
   :config
   ;; this to keys I use for symbol overlay
   (keymap-unset sly-editing-mode-map "M-p")
