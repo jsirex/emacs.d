@@ -3,11 +3,13 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        cycle-spacing
         electric-newline-and-maybe-indent
         markdown-cycle
         ))
 
 (setq mc/cmds-to-run-once
       '(
+        eval-print-last-sexp
         wgrep-finish-edit
         ))

@@ -161,6 +161,7 @@
 
   (dolist (mode-map '((c-mode . c-ts-mode)
                       (c++-mode . c++-ts-mode)
+                      (cmake-mode . cmake-ts-mode)
                       (csharp-mode . csharp-ts-mode)
                       (dockerfile-mode . dockerfile-ts-mode)
                       (python-mode . python-ts-mode)
