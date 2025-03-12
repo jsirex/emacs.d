@@ -198,7 +198,7 @@
 (use-package minibuffer :ensure nil
   :init
   (setopt completion-cycle-threshold nil
-          completion-styles '(basic partial-completion orderless)
+          completion-styles '(partial-completion orderless)
           completion-category-overrides '((file (styles basic partial-completion)))))
 
 (use-package paragraphs :ensure nil
@@ -304,7 +304,8 @@
   :init
   (setopt global-corfu-mode t
           corfu-indexed-mode t
-          corfu-auto nil
+          corfu-auto t
+          corfu-auto-delay 0.5
           corfu-count 20
           corfu-max-width 200
           corfu-min-width 50

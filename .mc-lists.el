@@ -3,13 +3,23 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        beginning-of-buffer
         cycle-spacing
         electric-newline-and-maybe-indent
+        indent-for-tab-command
+        markdown-beginning-of-line
         markdown-cycle
+        markdown-end-of-line
+        markdown-outdent-or-delete
+        move-dup-move-lines-up
+        wdired--self-insert
         ))
 
 (setq mc/cmds-to-run-once
       '(
+        phi-search
         eval-print-last-sexp
+        revert-buffer
+        wdired-finish-edit
         wgrep-finish-edit
         ))
