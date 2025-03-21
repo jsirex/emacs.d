@@ -109,6 +109,10 @@
   (setopt global-auto-revert-mode t
           auto-revert-mode-text ""))
 
+(use-package dabbrev :ensure nil
+  :init
+  (keymap-global-set "M-/" #'dabbrev-completion))
+
 (use-package delsel :ensure nil
   :init
   (setopt delete-selection-mode t))
@@ -182,10 +186,6 @@
 (use-package hl-line :ensure nil
   :init
   (setopt global-hl-line-mode t))
-
-(use-package hippie-exp :ensure nil
-  :init
-  (keymap-global-set "M-/" #'hippie-expand))
 
 (use-package ibuffer :ensure nil
   :init
