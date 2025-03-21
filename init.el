@@ -169,6 +169,7 @@
                       (csharp-mode . csharp-ts-mode)
                       (dockerfile-mode . dockerfile-ts-mode)
                       (python-mode . python-ts-mode)
+                      (rust-mode . rust-ts-mode)
                       (sh-mode . bash-ts-mode)
                       (typescript-mode . typescript-ts-mode)
                       (yaml-mode . yaml-ts-mode)))

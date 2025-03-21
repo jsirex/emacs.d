@@ -17,9 +17,11 @@
 
 (setq mc/cmds-to-run-once
       '(
-        phi-search
+        embark-act
         eval-print-last-sexp
+        phi-search
         revert-buffer
         wdired-finish-edit
+        wgrep-abort-changes
         wgrep-finish-edit
         ))
