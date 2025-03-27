@@ -44,7 +44,7 @@
 
 (defconst +package-todo+
         '(
-          ;; Finished A,B,C,D,E,F,G
+          ;; Finished A,B,C,D,E,F,G,H,I,J
           ;; cargo-transient
           ;; csv-mode
           eglot-java
@@ -111,7 +111,8 @@
 
 (use-package dabbrev :ensure nil
   :init
-  (keymap-global-set "M-/" #'dabbrev-completion))
+  (keymap-global-set "M-/" #'dabbrev-expand))
+  (keymap-global-set "C-M-/" #'dabbrev-completion))
 
 (use-package delsel :ensure nil
   :init
@@ -284,7 +285,8 @@
 
 (use-package cape
   :init
-  (add-hook 'completion-at-point-functions #'cape-file))
+  (add-hook 'completion-at-point-functions #'cape-file)
+  (add-hook 'completion-at-point-functions #'cape-dabbrev))
 
 (use-package color-theme-sanityinc-tomorrow
   :init
@@ -304,12 +306,13 @@
 (use-package corfu
   :init
   (setopt global-corfu-mode t
+          corfu-count 20
+          corfu-min-width 50
+          corfu-max-width 200
+          corfu-preview-current t
           corfu-indexed-mode t
           corfu-auto t
           corfu-auto-delay 0.5
-          corfu-count 20
-          corfu-max-width 200
-          corfu-min-width 50
           corfu-popupinfo-delay '(0.5 . 0.1)
           corfu-popupinfo-mode t)
   :config
