@@ -111,8 +111,10 @@
 
 (use-package dabbrev :ensure nil
   :init
-  (keymap-global-set "M-/" #'dabbrev-expand))
-  (keymap-global-set "C-M-/" #'dabbrev-completion))
+  (setopt dabbrev-upcase-means-case-search t)
+  (keymap-global-set "M-/" #'dabbrev-expand)
+  (keymap-global-set "C-M-/" #'dabbrev-completion)
+  (add-hook 'completion-at-point-functions #'dabbrev-capf))
 
 (use-package delsel :ensure nil
   :init
@@ -285,8 +287,7 @@
 
 (use-package cape
   :init
-  (add-hook 'completion-at-point-functions #'cape-file)
-  (add-hook 'completion-at-point-functions #'cape-dabbrev))
+  (add-hook 'completion-at-point-functions #'cape-file))
 
 (use-package color-theme-sanityinc-tomorrow
   :init
@@ -310,7 +311,7 @@
           corfu-min-width 50
           corfu-max-width 200
           corfu-preview-current t
-          corfu-indexed-mode t
+          corfu-indexed-mode nil
           corfu-auto t
           corfu-auto-delay 0.5
           corfu-popupinfo-delay '(0.5 . 0.1)
