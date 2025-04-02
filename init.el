@@ -109,7 +109,7 @@
   (setopt global-auto-revert-mode t
           auto-revert-mode-text ""))
 
-(use-package dabbrev :ensure nil
+(use-package dabbrev :ensure nil :demand t
   :init
   (setopt dabbrev-upcase-means-case-search t)
   (keymap-global-set "M-/" #'dabbrev-expand)
