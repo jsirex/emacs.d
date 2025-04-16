@@ -113,8 +113,8 @@
   :init
   (setopt dabbrev-upcase-means-case-search t)
   (keymap-global-set "M-/" #'dabbrev-expand)
-  (keymap-global-set "C-M-/" #'dabbrev-completion)
-  (add-hook 'completion-at-point-functions #'dabbrev-capf))
+  (keymap-global-set "C-M-/" #'dabbrev-completion))
+  ;; (add-hook 'completion-at-point-functions #'dabbrev-capf))
 
 (use-package delsel :ensure nil
   :init
@@ -202,9 +202,8 @@
 (use-package minibuffer :ensure nil
   :init
   (setopt completion-cycle-threshold nil
-          completion-styles '(partial-completion orderless)
+          completion-styles '(orderless partial-completion)
           completion-category-overrides '((file (styles basic partial-completion)))))
-
 (use-package paragraphs :ensure nil
   :init
   (setopt sentence-end-double-space nil))
@@ -311,7 +310,6 @@
           corfu-min-width 50
           corfu-max-width 200
           corfu-preview-current t
-          corfu-indexed-mode nil
           corfu-auto t
           corfu-auto-delay 0.5
           corfu-popupinfo-delay '(0.5 . 0.1)
