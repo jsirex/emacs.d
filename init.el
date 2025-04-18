@@ -361,7 +361,7 @@
 
 (use-package gptel
   :init
-  (load (expand-file-name (locate-user-emacs-file ".gptel-custom-backends")))
+  (load (expand-file-name (locate-user-emacs-file ".gptel-custom-backends")) t)
 
   :config
   (keymap-set gptel-mode-map "C-c ." #'gptel-menu))
