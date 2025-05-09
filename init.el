@@ -44,7 +44,7 @@
 
 (defconst +package-todo+
         '(
-          ;; Finished A,B,C,D,E,F,G,H,I,J
+          ;; Finished M
           ;; cargo-transient
           ;; csv-mode
           eglot-java
@@ -212,6 +212,11 @@
   :init
   (setopt show-paren-mode t))
 
+(use-package project :ensure nil
+  :config
+  (keymap-set project-prefix-map "m" #'magit-project-status)
+  (add-to-list 'project-switch-commands '(magit-project-status "Magit") t))
+
 (use-package recentf :ensure nil
   :init
   (setopt recentf-mode t
@@ -366,6 +371,11 @@
   :config
   (keymap-set gptel-mode-map "C-c ." #'gptel-menu))
 
+(use-package kubernetes
+  :init
+  (setopt kubernetes-poll-frequency 3600
+          kubernetes-redraw-frequency 3600))
+
 (use-package magit
   :config
   (add-hook 'magit-pre-refresh-hook #'diff-hl-magit-pre-refresh)
@@ -383,14 +393,6 @@
   :init
   (setopt marginalia-mode t
           marginalia-annotators '(marginalia-annotators-heavy)))
-
-;; TODO: markdown-ts-mode
-;; (use-package markdown-ts-mode
-;;   :mode ("\\.md\\'" . markdown-ts-mode)
-;;   :defer 't
-;;   :config
-;;   (add-to-list 'treesit-language-source-alist '(markdown "https://github.com/tree-sitter-grammars/tree-sitter-markdown" "split_parser" "tree-sitter-markdown/src"))
-;;   (add-to-list 'treesit-language-source-alist '(markdown-inline "https://github.com/tree-sitter-grammars/tree-sitter-markdown" "split_parser" "tree-sitter-markdown-inline/src")))
 
 (use-package markdown-mode)
 
