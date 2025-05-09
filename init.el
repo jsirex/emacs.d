@@ -62,16 +62,8 @@
           ;; nerd-icons-corfu
           ;; nerd-icons-dired
           ;; nerd-icons-ibuffer
-          ;; poly-ansible
-          ;; poly-ansible
-          ;; poly-markdown
-          ;; poly-ruby
-          ;; polymode
           ;; realgud - debugger frontend.. idk
           ;; rust-mode
-          ;; terraform-mode
-          ;; uv-mode
-          ;; yard-mode
           ;; zerodark-theme -> all-the-icons -> maybe?
           ))
 
@@ -453,6 +445,12 @@
   (keymap-global-set "M-p" #'symbol-overlay-jump-prev))
 
 (use-package systemd)
+
+;; a little buggy module
+(use-package terraform-ts-mode :demand t
+  :vc (:url "https://github.com/kgrotel/terraform-ts-mode.git"
+            :branch "v0.6"
+            :rev :newest))
 
 (use-package treesit-auto
   :init
