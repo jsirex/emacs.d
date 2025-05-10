@@ -42,31 +42,6 @@
           use-package-always-ensure t
           use-package-use-theme nil))
 
-(defconst +package-todo+
-        '(
-          ;; Finished M
-          ;; cargo-transient
-          ;; csv-mode
-          eglot-java
-          ;; flymake-clippy maybe, requires extra steps
-          ;; flymake-ruby    ; maybe just use info from eglot
-          ;; forge
-          ;; format-all maybe later - looks good for formatting everything on save
-          ;; geiser
-          ;; geiser-guile
-          ;; gerrit
-          ;; go-mode
-          ;; guix
-          ;; nerd-icons
-          ;; nerd-icons-completion
-          ;; nerd-icons-corfu
-          ;; nerd-icons-dired
-          ;; nerd-icons-ibuffer
-          ;; realgud - debugger frontend.. idk
-          ;; rust-mode
-          ;; zerodark-theme -> all-the-icons -> maybe?
-          ))
-
 
 ;; C-sources Core
 (use-package emacs :ensure nil
@@ -403,6 +378,20 @@
   ;; bug with mc/toggle-cursor-on-click
   (cl-pushnew 'mc/toggle-cursor-on-click mc--default-cmds-to-run-once)
   (keymap-set mc/keymap "M-<return>" #'mc/skip-to-next-like-this))
+
+(use-package nerd-icons)
+
+(use-package nerd-icons-completion
+  :init
+  (setopt nerd-icons-completion-mode t))
+
+(use-package nerd-icons-corfu
+  :init
+  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+
+(use-package nerd-icons-dired
+  :init
+  (add-hook 'dired-mode-hook #'nerd-icons-dired-mode))
 
 (use-package nginx-mode)
 
