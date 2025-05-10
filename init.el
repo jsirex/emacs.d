@@ -182,6 +182,7 @@
 (use-package project :ensure nil
   :config
   (keymap-set project-prefix-map "m" #'magit-project-status)
+  (keymap-set project-prefix-map "s" #'consult-git-grep)
   (add-to-list 'project-switch-commands '(magit-project-status "Magit") t))
 
 (use-package recentf :ensure nil
