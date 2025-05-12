@@ -244,6 +244,10 @@
   :init
   (setopt winner-mode t))
 
+(use-package yaml-ts-mode :ensure nil
+  :init
+  (add-to-list 'auto-mode-alist '("\\.ya?ml\\'" . yaml-ts-mode)))
+
 
 ;;; -- External Packages
 
