@@ -76,6 +76,18 @@
   (setopt global-auto-revert-mode t
           auto-revert-mode-text ""))
 
+(use-package compile :ensure nil
+  :init
+  (setopt compilation-ask-about-save nil
+          compilation-always-kill t
+          compilation-scroll-output 'first-error)
+  (keymap-global-set "<f9>" 'compile)
+  (keymap-global-set "C-<f9>" 'recompile))
+
+(use-package cus-edit :ensure nil
+  :init
+  (setopt custom-file (locate-user-emacs-file "ignored-custom.el")))
+
 (use-package dabbrev :ensure nil :demand t
   :init
   (setopt dabbrev-upcase-means-case-search t)
@@ -94,24 +106,17 @@
           dired-recursive-copies 'always
           dired-recursive-deletes 'top))
 
-(use-package compile :ensure nil
-  :init
-  (setopt compilation-ask-about-save nil
-          compilation-always-kill t
-          compilation-scroll-output 'first-error)
-  (keymap-global-set "<f9>" 'compile)
-  (keymap-global-set "C-<f9>" 'recompile))
-
-(use-package cus-edit :ensure nil
-  :init
-  (setopt custom-file (locate-user-emacs-file "ignored-custom.el")))
-
 (use-package desktop :ensure nil
   :init
   (setopt desktop-save-mode t
       desktop-save t
       desktop-auto-save-timeout 600
       desktop-restore-frames nil))
+
+(use-package docker-ts-mode :ensure nil
+  :init
+  (add-to-list 'auto-mode-alist '("Containerfile" . dockerfile-ts-mode))
+  (add-to-list 'auto-mode-alist '("Dockerfile" . dockerfile-ts-mode)))
 
 (use-package editorconfig :ensure nil
   :init
@@ -384,7 +389,12 @@
   (cl-pushnew 'mc/toggle-cursor-on-click mc--default-cmds-to-run-once)
   (keymap-set mc/keymap "M-<return>" #'mc/skip-to-next-like-this))
 
-(use-package nerd-icons)
+(use-package nerd-icons
+  :config
+  (cl-pushnew '("containerfile" nerd-icons-sucicon "nf-seti-docker" :face nerd-icons-cyan)
+              nerd-icons-extension-icon-alist :test #'equal)
+  (cl-pushnew '("^\\.?Containerfile" nerd-icons-sucicon "nf-seti-docker" :face nerd-icons-blue)
+              nerd-icons-regexp-icon-alist :test #'equal))
 
 (use-package nerd-icons-completion
   :init

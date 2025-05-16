@@ -25,6 +25,7 @@
         project-find-file
         revert-buffer
         switch-window-then-delete
+        symbol-overlay-jump-next
         wdired-finish-edit
         wgrep-abort-changes
         wgrep-finish-edit
