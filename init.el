@@ -370,8 +370,7 @@
 
 (use-package marginalia
   :init
-  (setopt marginalia-mode t
-          marginalia-annotators '(marginalia-annotators-heavy)))
+  (setopt marginalia-mode t))
 
 (use-package markdown-mode)
 
