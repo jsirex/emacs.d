@@ -8,12 +8,15 @@
         cycle-spacing
         dabbrev-expand
         electric-newline-and-maybe-indent
+        electric-pair-delete-pair
         indent-for-tab-command
         markdown-beginning-of-line
         markdown-cycle
         markdown-end-of-line
         markdown-outdent-or-delete
+        move-dup-duplicate-down
         move-dup-move-lines-up
+        org-self-insert-command
         wdired--self-insert
         ))
 

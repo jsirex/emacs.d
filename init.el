@@ -353,6 +353,8 @@
   (setopt kubernetes-poll-frequency 3600
           kubernetes-redraw-frequency 3600))
 
+(use-package kubedoc)
+
 (use-package magit
   :config
   (add-hook 'magit-pre-refresh-hook #'diff-hl-magit-pre-refresh)
