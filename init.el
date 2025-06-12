@@ -80,9 +80,7 @@
   :init
   (setopt compilation-ask-about-save nil
           compilation-always-kill t
-          compilation-scroll-output 'first-error)
-  (keymap-global-set "<f9>" 'compile)
-  (keymap-global-set "C-<f9>" 'recompile))
+          compilation-scroll-output 'first-error))
 
 (use-package cus-edit :ensure nil
   :init
@@ -185,6 +183,9 @@
   (setopt show-paren-mode t))
 
 (use-package project :ensure nil
+  :init
+  (keymap-global-set "<f9>" 'project-compile)
+  (keymap-global-set "C-<f9>" 'project-recompile)
   :config
   (keymap-set project-prefix-map "m" #'magit-project-status)
   (keymap-set project-prefix-map "s" #'consult-git-grep)
