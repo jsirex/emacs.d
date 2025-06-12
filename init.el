@@ -155,7 +155,9 @@
 (use-package flymake :ensure nil
   :init
   (setopt flymake-no-changes-timeout 5)
-  (add-hook 'sh-base-mode-hook #'flymake-mode))
+  (dolist (mode-hook '(sh-base-mode-hook
+                       yaml-ts-mode-hook))
+          (add-hook mode-hook #'flymake-mode)))
 
 (use-package hl-line :ensure nil
   :init
