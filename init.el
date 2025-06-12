@@ -176,6 +176,16 @@
   (setopt completion-cycle-threshold nil
           completion-styles '(orderless partial-completion)
           completion-category-overrides '((file (styles basic partial-completion)))))
+
+(use-package org :ensure nil
+  :init
+  (setopt org-todo-keywords '((sequence "TODO" "IN-PROGRESS" "DONE"))
+          org-todo-keyword-faces '(("TODO" . "magenta")
+                                   ("IN-PROGRESS" . "yellow")
+                                   ("DONE" . "green"))
+          org-babel-load-languages '((emacs-lisp . t)
+                                     (shell . t))))
+
 (use-package paragraphs :ensure nil
   :init
   (setopt sentence-end-double-space nil))
@@ -415,6 +425,9 @@
 (use-package nginx-mode)
 
 (use-package orderless)
+
+(use-package org-re-reveal
+  :commands (org-re-reveal-export-to-html org-re-reveal-export-to-html-and-browse))
 
 (use-package phi-search
   :init
