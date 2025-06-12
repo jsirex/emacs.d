@@ -377,7 +377,9 @@
 (use-package magit-push :ensure nil
   :config
   (transient-append-suffix 'magit-push "-n"
-    '("-gm" "GitLab Create Merge Request" "--push-option=merge_request.create")))
+    '("-gm" "GitLab Create Merge Request" "--push-option=merge_request.create"))
+  (transient-append-suffix 'magit-push "-gm"
+    '("-gs" "GitLab Skip CI" "--push-option=ci.skip")))
 
 (use-package magit-todos)
 
