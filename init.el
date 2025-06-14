@@ -42,6 +42,8 @@
           use-package-always-ensure t
           use-package-use-theme nil))
 
+;; Load my private settings
+(load (expand-file-name (locate-user-emacs-file "private.el")) t)
 
 ;; C-sources Core
 (use-package emacs :ensure nil
@@ -351,13 +353,16 @@
   :init
   (add-hook 'yaml-ts-mode-hook 'flymake-yamllint-setup))
 
+(use-package jira
+  :init
+  (setopt jira-api-version 2
+          jira-debug nil
+          jira-token-is-personal-access-token t))
+
 (use-package git-modes)
 (use-package git-timemachine)
 
 (use-package gptel
-  :init
-  (load (expand-file-name (locate-user-emacs-file ".gptel-custom-backends")) t)
-
   :config
   (keymap-set gptel-mode-map "C-c ." #'gptel-menu))
 
