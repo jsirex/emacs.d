@@ -24,6 +24,7 @@
       '(
         embark-act
         eval-print-last-sexp
+        kmacro-end-or-call-macro
         phi-search
         project-find-file
         revert-buffer

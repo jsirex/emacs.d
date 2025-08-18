@@ -42,8 +42,6 @@
           use-package-always-ensure t
           use-package-use-theme nil))
 
-;; Load my private settings
-(load (expand-file-name (locate-user-emacs-file "private.el")) t)
 
 ;; C-sources Core
 (use-package emacs :ensure nil
@@ -93,12 +91,10 @@
   (setopt dabbrev-upcase-means-case-search t)
   (keymap-global-set "M-/" #'dabbrev-expand)
   (keymap-global-set "C-M-/" #'dabbrev-completion))
-  ;; (add-hook 'completion-at-point-functions #'dabbrev-capf))
 
 (use-package delsel :ensure nil
   :init
   (setopt delete-selection-mode t))
-
 (use-package dired :ensure nil
   :init
   (setopt dired-auto-revert-buffer t
@@ -502,6 +498,9 @@
   (setopt zoom-mode t
           zoom-ignored-major-modes '(dired-mode)
           zoom-size '(0.618 . 0.618)))
+
+;; Load my private settings later when everything is installed
+(load (expand-file-name (locate-user-emacs-file "private.el")) t)
 
 (provide 'init)
 ;;; init.el ends here
