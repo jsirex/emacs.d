@@ -60,7 +60,7 @@
 
           ;; startup
           auto-save-list-file-prefix nil
-          inhibit-startup-message t
+          inhibit-startup-screen t
           initial-scratch-message (concat ";; Happy hacking, " user-login-name " - Emacs ♥ you!\n")
 
           ;; novice
@@ -182,7 +182,12 @@
                                    ("IN-PROGRESS" . "yellow")
                                    ("DONE" . "green"))
           org-babel-load-languages '((emacs-lisp . t)
-                                     (shell . t))))
+                                     (shell . t)
+                                     (python . t))))
+
+(use-package org-latext :ensure nil
+  :init
+  (setopt org-latex-src-block-backend 'engraved))
 
 (use-package paragraphs :ensure nil
   :init
@@ -295,13 +300,12 @@
 
 ;; (use-package consult-ag)
 ;; (use-package consult-project-extra)
-
 (use-package corfu
   :init
   (setopt global-corfu-mode t
           corfu-count 20
           corfu-min-width 50
-          corfu-max-width 200
+          corfu-max-width 120
           corfu-preview-current t
           corfu-auto t
           corfu-auto-delay 0.5
@@ -340,6 +344,8 @@
   (keymap-global-set "C-c C-o" #'embark-export))
 
 (use-package embark-consult)
+
+(use-package engrave-faces)
 
 (use-package expand-region
   :init
@@ -430,7 +436,8 @@
 (use-package orderless)
 
 (use-package org-re-reveal
-  :commands (org-re-reveal-export-to-html org-re-reveal-export-to-html-and-browse))
+  :commands (org-re-reveal-export-to-html
+             org-re-reveal-export-to-html-and-browse))
 
 (use-package phi-search
   :init

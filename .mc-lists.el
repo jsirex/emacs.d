@@ -7,6 +7,7 @@
         beginning-of-buffer
         cycle-spacing
         dabbrev-expand
+        downcase-region
         electric-newline-and-maybe-indent
         electric-pair-delete-pair
         indent-for-tab-command
@@ -17,6 +18,7 @@
         move-dup-duplicate-down
         move-dup-move-lines-up
         org-self-insert-command
+        upcase-region
         wdired--self-insert
         ))
 
@@ -24,6 +26,7 @@
       '(
         embark-act
         eval-print-last-sexp
+        handle-switch-frame
         kmacro-end-or-call-macro
         phi-search
         project-find-file
@@ -33,4 +36,5 @@
         wdired-finish-edit
         wgrep-abort-changes
         wgrep-finish-edit
+        winner-undo
         ))
