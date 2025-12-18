@@ -30,7 +30,7 @@
 ;; then set it back to 4 MB
 (setopt gc-cons-threshold (* 512 (car (memory-info))))
 (add-hook 'emacs-startup-hook
-          (lambda () (setopt gc-cons-threshold (* 4 1024 1024)) (garbage-collect)))
+          (lambda () (setopt gc-cons-threshold (* 8 1024 1024)) (garbage-collect)))
 
 
 ;; Tweak GUI before Initialization

@@ -29,7 +29,7 @@
 
   ;; like add-to-list it is quite improper to setq a custom variable
   ;; setopt should be used for custom variables, but nobody cares
-  (cl-pushnew '("melpa"  . "https://melpa.org/packages/")        package-archives :test #'equal)
+  (cl-pushnew '("melpa"  . "https://melpa.org/packages/") package-archives :test #'equal)
 
   (setopt package-native-compile t
           package-quickstart t
@@ -143,7 +143,8 @@
                       (rust-mode . rust-ts-mode)
                       (sh-mode . bash-ts-mode)
                       (typescript-mode . typescript-ts-mode)
-                      (yaml-mode . yaml-ts-mode)))
+                      ;; (yaml-mode . yaml-ts-mode)
+                      ))
     (cl-pushnew mode-map major-mode-remap-alist :test #'equal)))
 
 (use-package fira-code-mode :diminish
@@ -174,6 +175,10 @@
   (setopt completion-cycle-threshold nil
           completion-styles '(orderless partial-completion)
           completion-category-overrides '((file (styles basic partial-completion)))))
+
+(use-package modus-themes :ensure nil
+  :init
+  (load-theme 'modus-vivendi-tinted))
 
 (use-package org :ensure nil
   :init
@@ -284,9 +289,11 @@
 
 (use-package cape
   :init
-  (add-hook 'completion-at-point-functions #'cape-file))
+  (add-hook 'completion-at-point-functions #'cape-file)
+  (add-hook 'completion-at-point-functions #'cape-dabbrev)
+  (add-hook 'completion-at-point-functions #'cape-dict))
 
-(use-package color-theme-sanityinc-tomorrow
+(use-package color-theme-sanityinc-tomorrow :disabled t
   :init
   (load-theme 'sanityinc-tomorrow-eighties t))
 
@@ -306,7 +313,6 @@
           corfu-count 20
           corfu-min-width 50
           corfu-max-width 120
-          corfu-preview-current t
           corfu-auto t
           corfu-auto-delay 0.5
           corfu-popupinfo-delay '(0.5 . 0.1)
@@ -365,6 +371,8 @@
 (use-package git-timemachine)
 
 (use-package gptel
+  :init
+  (setopt gptel-highlight-mode t)
   :config
   (keymap-set gptel-mode-map "C-c ." #'gptel-menu))
 
@@ -394,7 +402,9 @@
   :init
   (setopt marginalia-mode t))
 
-(use-package markdown-mode)
+(use-package markdown-mode
+  :init
+  (setopt markdown-fontify-code-blocks-natively t))
 
 (use-package move-dup :diminish
   :init
@@ -494,6 +504,8 @@
   :config
   (keymap-set vertico-map "TAB" #'minibuffer-complete)
   (keymap-set vertico-map "M-q" #'vertico-quick-exit))
+
+(use-package vterm)
 
 (use-package wgrep
   :init
