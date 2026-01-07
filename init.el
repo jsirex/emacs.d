@@ -344,6 +344,8 @@
   (setopt docker-command "podman")
   (defalias 'podman 'docker))
 
+(use-package eca)
+
 (use-package embark
   :init
   (keymap-global-set "C-." #'embark-act)
@@ -372,7 +374,8 @@
 
 (use-package gptel
   :init
-  (setopt gptel-highlight-mode t)
+  (add-hook 'gptel-mode-hook #'gptel-highlight-mode)
+  (keymap-global-set "<f10>" #'gptel)
   :config
   (keymap-set gptel-mode-map "C-c ." #'gptel-menu))
 
