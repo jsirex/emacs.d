@@ -344,7 +344,10 @@
   (setopt docker-command "podman")
   (defalias 'podman 'docker))
 
-(use-package eca)
+(use-package eca
+  :init
+  (keymap-global-set "M-<f5>" #'eca)
+  (keymap-global-set "<f5>" #'eca-chat-toggle-window))
 
 (use-package embark
   :init

@@ -2,6 +2,7 @@
 *.log
 /.emacs.desktop
 /.emacs.desktop.lock
+/eca
 /eln-cache
 /elpa
 /eshell/
