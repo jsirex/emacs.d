@@ -67,7 +67,8 @@
           disabled-command-function nil
 
           ;; runtime Lisp native compiler
-          native-comp-async-report-warnings-errors nil))
+          native-comp-async-report-warnings-errors nil)
+  (keymap-global-set "C-x C-h" #'ignore))
 
 
 ;; --- Internal Packages
@@ -142,6 +143,7 @@
                       (python-mode . python-ts-mode)
                       (rust-mode . rust-ts-mode)
                       (sh-mode . bash-ts-mode)
+                      (terraform-mode . terraform-ts-mode)
                       (typescript-mode . typescript-ts-mode)
                       ;; (yaml-mode . yaml-ts-mode)
                       ))
@@ -241,6 +243,10 @@
   :init
   (setopt global-so-long-mode t))
 
+(use-package text-mode :ensure nil
+  :init
+  (setopt text-mode-ispell-word-completion nil))
+
 (use-package wdired :ensure nil
   :init
   (setopt wdired-allow-to-change-permissions t))
@@ -291,7 +297,8 @@
   :init
   (add-hook 'completion-at-point-functions #'cape-file)
   (add-hook 'completion-at-point-functions #'cape-dabbrev)
-  (add-hook 'completion-at-point-functions #'cape-dict))
+  ;; (add-hook 'completion-at-point-functions #'cape-dict)
+  )
 
 (use-package color-theme-sanityinc-tomorrow :disabled t
   :init
@@ -365,6 +372,8 @@
 (use-package flymake-yamllint
   :init
   (add-hook 'yaml-ts-mode-hook 'flymake-yamllint-setup))
+
+(use-package forge)
 
 (use-package jira
   :init

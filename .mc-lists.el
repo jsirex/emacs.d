@@ -19,7 +19,12 @@
         move-dup-duplicate-down
         move-dup-move-lines-down
         move-dup-move-lines-up
+        org-beginning-of-line
+        org-cycle
+        org-end-of-line
+        org-return-and-maybe-indent
         org-self-insert-command
+        org-yank
         upcase-region
         wdired--self-insert
         ))
@@ -30,6 +35,8 @@
         eval-print-last-sexp
         handle-switch-frame
         kmacro-end-or-call-macro
+        org-shiftleft
+        org-shiftright
         phi-search
         project-find-file
         revert-buffer
