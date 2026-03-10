@@ -391,12 +391,12 @@
   :config
   (keymap-set gptel-mode-map "C-c ." #'gptel-menu))
 
-(use-package kubernetes
-  :init
-  (setopt kubernetes-poll-frequency 3600
-          kubernetes-redraw-frequency 3600))
-
 (use-package kubedoc)
+
+;; (use-package kubernetes
+;;   :init
+;;   (setopt kubernetes-poll-frequency 3600
+;;           kubernetes-redraw-frequency 3600))
 
 (use-package magit
   :config
@@ -418,8 +418,10 @@
   (setopt marginalia-mode t))
 
 (use-package markdown-mode
-  :init
-  (setopt markdown-fontify-code-blocks-natively t))
+  :config
+  ;; we need to setopt after markdown is loaded as these has setters
+  (setopt markdown-fontifvy-code-blocks-natively t
+          markdown-header-scaling t))
 
 (use-package move-dup :diminish
   :init
