@@ -420,7 +420,7 @@
 (use-package markdown-mode
   :config
   ;; we need to setopt after markdown is loaded as these has setters
-  (setopt markdown-fontifvy-code-blocks-natively t
+  (setopt markdown-fontify-code-blocks-natively t
           markdown-header-scaling t))
 
 (use-package move-dup :diminish
