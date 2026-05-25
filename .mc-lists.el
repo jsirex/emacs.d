@@ -12,6 +12,8 @@
         electric-pair-delete-pair
         end-of-buffer
         indent-for-tab-command
+        makefile-next-dependency
+        makefile-previous-dependency
         markdown-beginning-of-line
         markdown-cycle
         markdown-end-of-line
@@ -22,11 +24,14 @@
         org-beginning-of-line
         org-cycle
         org-end-of-line
+        org-kill-line
+        org-metaleft
         org-return-and-maybe-indent
         org-self-insert-command
         org-yank
         upcase-region
         wdired--self-insert
+        wdired-next-line
         ))
 
 (setq mc/cmds-to-run-once

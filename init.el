@@ -72,6 +72,11 @@
 
 
 ;; --- Internal Packages
+
+(use-package ansi-color
+  :init
+  (add-hook 'compilation-filter-hook 'ansi-color-compilation-filter))
+
 (use-package autorevert :ensure nil
   :init
   (setopt global-auto-revert-mode t
@@ -296,7 +301,7 @@
 (use-package cape
   :init
   (add-hook 'completion-at-point-functions #'cape-file)
-  (add-hook 'completion-at-point-functions #'cape-dabbrev)
+  ;; (add-hook 'completion-at-point-functions #'cape-dabbrev)
   ;; (add-hook 'completion-at-point-functions #'cape-dict)
   )
 
@@ -390,6 +395,9 @@
   (keymap-global-set "<f10>" #'gptel)
   :config
   (keymap-set gptel-mode-map "C-c ." #'gptel-menu))
+
+
+(use-package kotlin-ts-mode)
 
 (use-package kubedoc)
 
@@ -537,6 +545,9 @@
 
 ;; Load my private settings later when everything is installed
 (load (expand-file-name (locate-user-emacs-file "private.el")) t)
+
+;; Let load ad-hoc customizations
+(load (expand-file-name (locate-user-emacs-file "ignored-custom.el")))
 
 (provide 'init)
 ;;; init.el ends here
