@@ -19,5 +19,5 @@ clean:
 	@rm -f early-init.elc init.elc
 
 .PHONY: deep-clean
-deep-clean:
-	@git clean -fdx
+deep-clean: clean
+	@rm -rf elpa eln-cache package-quickstart.*

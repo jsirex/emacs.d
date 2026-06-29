@@ -24,6 +24,8 @@
         org-beginning-of-line
         org-cycle
         org-end-of-line
+        org-fill-paragraph
+        org-force-self-insert
         org-kill-line
         org-metaleft
         org-return-and-maybe-indent

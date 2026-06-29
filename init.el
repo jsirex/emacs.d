@@ -514,8 +514,8 @@
 
 ;; a little buggy module
 (use-package terraform-ts-mode :demand t
-  :vc (:url "https://github.com/kgrotel/terraform-ts-mode.git"
-            :branch "v0.6"
+  :vc (:url "https://codeberg.org/ccbash-oss/terraform-ts-mode.git"
+            :branch "main"
             :rev :newest))
 
 (use-package treesit-auto
