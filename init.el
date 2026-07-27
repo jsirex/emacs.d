@@ -189,7 +189,14 @@
 
 (use-package org :ensure nil
   :init
-  (setopt org-todo-keywords '((sequence "TODO" "IN-PROGRESS" "DONE"))
+  (setopt org-default-notes-file (expand-file-name "inbox.org" org-directory)
+          org-agenda-files (list
+                            (expand-file-name "inbox.org" org-directory)
+                            (expand-file-name "agenda" org-directory))
+          org-refile-targets '((org-agenda-files :maxlevel . 1))
+          org-archive-mark-done t
+          org-archive-reversed-order t
+          org-archive-location (concat (expand-file-name "archive.org" org-directory) "::* %s")
           org-todo-keyword-faces '(("TODO" . "magenta")
                                    ("IN-PROGRESS" . "yellow")
                                    ("DONE" . "green"))

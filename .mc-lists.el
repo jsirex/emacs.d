@@ -7,6 +7,7 @@
         beginning-of-buffer
         cycle-spacing
         dabbrev-expand
+        default-indent-new-line
         downcase-region
         electric-newline-and-maybe-indent
         electric-pair-delete-pair
@@ -40,6 +41,7 @@
       '(
         embark-act
         eval-print-last-sexp
+        gptel
         handle-switch-frame
         kmacro-end-or-call-macro
         org-shiftleft
