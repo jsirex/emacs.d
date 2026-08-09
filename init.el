@@ -167,7 +167,9 @@
 
 (use-package hl-line :ensure nil
   :init
-  (setopt global-hl-line-mode t))
+  (add-hook 'prog-mode-hook #'hl-line-mode)
+  (add-hook 'text-mode-hook #'hl-line-mode)
+  (add-hook 'org-agenda-mode-hook #'hl-line-mode))
 
 (use-package ibuffer :ensure nil
   :init
@@ -187,8 +189,8 @@
   :init
   (load-theme 'modus-vivendi-tinted))
 
-(use-package org :ensure nil
-  :init
+(use-package org :ensure nil :demand t
+  :config
   (setopt org-default-notes-file (expand-file-name "inbox.org" org-directory)
           org-agenda-files (list
                             (expand-file-name "inbox.org" org-directory)
@@ -401,6 +403,7 @@
   (add-hook 'gptel-mode-hook #'gptel-highlight-mode)
   (keymap-global-set "<f10>" #'gptel)
   :config
+  (setopt gptel-highlight-methods '(margin face))
   (keymap-set gptel-mode-map "C-c ." #'gptel-menu))
 
 

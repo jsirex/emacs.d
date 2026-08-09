@@ -44,6 +44,7 @@
         gptel
         handle-switch-frame
         kmacro-end-or-call-macro
+        markdown-cleanup-list-numbers
         org-shiftleft
         org-shiftright
         phi-search
