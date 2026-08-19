@@ -403,7 +403,8 @@
   (add-hook 'gptel-mode-hook #'gptel-highlight-mode)
   (keymap-global-set "<f10>" #'gptel)
   :config
-  (setopt gptel-highlight-methods '(margin face))
+  (setopt gptel-highlight-methods '(margin face)
+          gptel-default-mode 'markdown-ts-mode)
   (keymap-set gptel-mode-map "C-c ." #'gptel-menu))
 
 

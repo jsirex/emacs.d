@@ -13,6 +13,7 @@
         electric-pair-delete-pair
         end-of-buffer
         indent-for-tab-command
+        kill-region
         makefile-next-dependency
         makefile-previous-dependency
         markdown-beginning-of-line
